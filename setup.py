@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="air",
-    version="0.1.0",
+    version="0.1.1",
     packages=find_packages(),
     install_requires=[
         "boto3",
@@ -22,9 +22,10 @@ setup(
         "Programming Language :: Python :: 3.13",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Typing :: Typed",
     ],
     package_data={
-        "air": ["**/*.py"],
+        "air": ["py.typed", "**/*.py"],
         "air.AIRunner": ["**/*.py"],
         "air.SuperNeva": ["**/*.py"],
         "air.Types": ["**/*.py"],
