@@ -7,8 +7,8 @@ from AIRunner.AIRunnerConfig import AIRunnerConfig
 from AIRunner.AIRunnerLogger import AIRunnerLogger
 from AIRunner.AIRunnerGenericStore import AIRunnerGenericStore
 from AIRunner.Types import AIRunnerPipelineResult
-from AIRunner.SuperNeva.SuperNeva import SuperNeva
-from AIRunner.SuperNeva.Types import LogInput, LogPayloadInput, LogTopic, LogType
+from AIRunner.SuperNeva import SuperNeva
+from AIRunner.SuperNevaTypes import LogInput, LogPayloadInput, LogTopic, LogType
 from AIRunner.Types import PromptMessage
 
 TStore = TypeVar("TStore")

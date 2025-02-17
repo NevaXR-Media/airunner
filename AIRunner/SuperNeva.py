@@ -3,9 +3,9 @@ import requests
 import boto3  # type: ignore
 from AIRunner.AIRunnerConfig import AIRunnerConfig
 from AIRunner.AIRunnerLogger import AIRunnerLogger
-from AIRunner.SuperNeva.Types import File
-from AIRunner.SuperNeva.Types import LogInput
-from AIRunner.SuperNeva.Types import MetaInput
+from AIRunner.SuperNevaTypes import File
+from AIRunner.SuperNevaTypes import LogInput
+from AIRunner.SuperNevaTypes import MetaInput
 
 
 class SNRequest:

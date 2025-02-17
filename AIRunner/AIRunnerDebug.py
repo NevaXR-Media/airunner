@@ -6,7 +6,7 @@ from aws_sqs_consumer import Message  # type: ignore
 from AIRunner.AIRunnerConfig import AIRunnerConfig
 from AIRunner.AIRunnerLogger import AIRunnerLogger
 from AIRunner.AIRunnerGenericStore import AIRunnerGenericStore
-from AIRunner.SuperNeva.SuperNeva import SuperNeva
+from AIRunner.SuperNeva import SuperNeva
 from AIRunner.Types import PromptMessage
 
 

@@ -5,7 +5,7 @@ from typing import List, Optional, TypedDict, TYPE_CHECKING, Dict, Any, Union
 from datetime import date
 
 if TYPE_CHECKING:
-    from AIRunner.SuperNeva.Types import MLString, MLFile, File
+    from AIRunner.SuperNevaTypes import MLString, MLFile, File
 
 
 class ContentStatus(str, Enum):
