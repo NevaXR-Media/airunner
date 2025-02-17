@@ -1,6 +1,8 @@
-from datetime import date
+from typing import TYPE_CHECKING, Any, Dict, Literal, Optional, TypedDict
+
 from enum import Enum
 from typing import List, Optional, TypedDict, TYPE_CHECKING, Dict, Any, Union
+from datetime import date
 
 if TYPE_CHECKING:
     from AIRunner.SuperNeva.Types import MLString, MLFile, File
@@ -199,3 +201,68 @@ class Content(TypedDict, total=False):
     _keywords: Optional[str]
     generated: Optional[bool]
     disabledAt: Optional[date]
+
+
+class PromptMessage(TypedDict, total=False):
+    prompt: "Prompt"
+    content: "Content"
+    params: Optional[Dict[str, Any]]
+    results: Optional[Dict[str, Any]]
+    accountId: Optional[str]
+
+
+class AIRunnerPipelineResult(TypedDict, total=False):
+    type: Literal["success", "error"]
+    message: Optional[str]
+    body: Dict[str, Any]
+
+
+class Resource(TypedDict, total=False):
+    key: Optional[str]
+    value: Optional[str]
+    attachment: Optional[File]
+
+
+class SQSConfig(TypedDict, total=False):
+    url: Optional[str]
+    secret: Optional[str]
+    key: Optional[str]
+    region: Optional[str]
+
+
+class ContentInitialParams(TypedDict, total=False):
+    published: Optional[bool]
+    tags: Optional[List[str]]
+    targets: Optional[List[str]]
+
+
+class Prompt(TypedDict, total=False):
+    _id: Optional[str]
+    key: Optional[str]
+    title: Optional["MLString"]
+    description: Optional["MLString"]
+    picture: Optional["MLFile"]
+    color: Optional[str]
+    prompt: Optional[str]
+    negative_prompt: Optional[str]
+    resources: Optional[List[Resource]]
+    fn: Optional[str]
+    sqs: Optional[SQSConfig]
+    webhook_url: Optional[str]
+    tags: Optional[List[str]]
+    targets: Optional[List[str]]
+    _keywords: Optional[str]
+    collections: Optional[List[str]]
+    version: Optional[float]
+    publishedAt: Optional[date]
+    publishedUntil: Optional[date]
+    published: Optional[bool]
+    highlighted: Optional[bool]
+    contentInitialParams: Optional[ContentInitialParams]
+    lastRunAt: Optional[date]
+    disabled: Optional[bool]
+    disabledAt: Optional[date]
+    createdBy: Optional[str]
+    updatedBy: Optional[str]
+    createdAt: Optional[date]
+    updatedAt: Optional[date]

@@ -2,8 +2,8 @@
 from typing import Dict, Generic, TypeVar
 
 from AIRunner.AIRunner import AIRunner
-from AIRunner.Types.PromptMessage import PromptMessage
-from AIRunner.Types.PipelineTypes import AIRunnerPipelineResult
+from AIRunner.Types import PromptMessage
+from AIRunner.Types import AIRunnerPipelineResult
 
 TStore = TypeVar("TStore")
 
