@@ -7,7 +7,7 @@ from AIRunner.AIRunnerConfig import AIRunnerConfig
 from AIRunner.AIRunnerLogger import AIRunnerLogger
 from AIRunner.AIRunnerGenericStore import AIRunnerGenericStore
 from AIRunner.SuperNeva.SuperNeva import SuperNeva
-from AIRunner.Types.PromptMessage import PromptMessage
+from AIRunner.Types import PromptMessage
 
 
 TStore = TypeVar("TStore")
