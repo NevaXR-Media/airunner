@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="air",
+    name="AIRunner",
     version="0.1.1",
     packages=find_packages(),
     install_requires=[
@@ -25,10 +25,10 @@ setup(
         "Typing :: Typed",
     ],
     package_data={
-        "air": ["py.typed", "**/*.py"],
-        "air.AIRunner": ["**/*.py"],
-        "air.SuperNeva": ["**/*.py"],
-        "air.Types": ["**/*.py"],
+        "AIRunner": ["py.typed", "**/*.py"],
+        "AIRunner.AIRunner": ["**/*.py"],
+        "AIRunner.SuperNeva": ["**/*.py"],
+        "AIRunner.Types": ["**/*.py"],
     },
     include_package_data=True,
 )
