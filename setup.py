@@ -3,12 +3,13 @@ from setuptools import setup, find_packages
 
 setup(
     name="airunner",
-    version="0.1.0",
+    version="0.1.1",
     packages=find_packages(),
     install_requires=[
         "boto3",
         "aws-sqs-consumer",
         "typing",
+        "requests",
     ],
     author="Berkay Sargın",
     author_email="berkay@nevaxr.com",
