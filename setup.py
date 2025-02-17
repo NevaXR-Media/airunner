@@ -2,8 +2,8 @@ import os
 from setuptools import setup, find_packages
 
 setup(
-    name="airunner",
-    version="0.1.1",
+    name="AIRunner",
+    version="0.1.0",
     packages=find_packages(),
     install_requires=[
         "boto3",
@@ -11,20 +11,24 @@ setup(
         "typing",
         "requests",
     ],
-    author="Berkay Sargın",
-    author_email="berkay@nevaxr.com",
-    description="A Python library for running AI pipelines with AWS SQS integration",
-    long_description=open("README.md").read() if os.path.exists("README.md") else "",
-    long_description_content_type="text/markdown",
-    url="https://github.com/berkaysargin/ai-runner",
+    python_requires=">=3.7",
+    description="AI Runner library",
+    author="Your Name",
+    author_email="your.email@example.com",
+    url="https://github.com/yourusername/AIRunner",
     classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ],
-    python_requires=">=3.7",
+    package_data={
+        "AIRunner": ["py.typed", "**/*.py"],
+        "AIRunner.SuperNeva": ["**/*.py"],
+        "AIRunner.Types": ["**/*.py"],
+    },
+    include_package_data=True,
 )
