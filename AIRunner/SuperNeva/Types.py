@@ -4,6 +4,7 @@ from datetime import date
 
 from typing import TypedDict, Optional, Any
 
+
 class FileInput(TypedDict, total=False):
     _id: Optional["str"]
     urls: Optional["FileURLsInput"]
@@ -17,6 +18,7 @@ class FileInput(TypedDict, total=False):
     createdBy: Optional["FileOwnerInput"]
     order: Optional["int"]
 
+
 class FileMetaInput(TypedDict, total=False):
     name: Optional["str"]
     size: Optional["float"]
@@ -27,10 +29,12 @@ class FileMetaInput(TypedDict, total=False):
     color: Optional["str"]
     blurHash: Optional["str"]
 
+
 class FileStreamInput(TypedDict, total=False):
     _id: Optional["str"]
     url: Optional["str"]
     thumbnails: Optional["None"]
+
 
 class FileURLsInput(TypedDict, total=False):
     original: Optional["str"]
@@ -41,12 +45,14 @@ class FileURLsInput(TypedDict, total=False):
     tracker: Optional["str"]
     stream: Optional["FileStreamInput"]
 
+
 class FileOwnerInput(TypedDict, total=False):
     _id: Optional["str"]
     firstName: Optional["str"]
     lastName: Optional["str"]
     url: Optional["str"]
     picture: Optional["str"]
+
 
 class File(TypedDict, total=False):
     _id: Optional["str"]
@@ -61,12 +67,14 @@ class File(TypedDict, total=False):
     createdBy: Optional["FileOwner"]
     order: Optional["int"]
 
+
 class FileOwner(TypedDict, total=False):
     _id: Optional["str"]
     firstName: Optional["str"]
     lastName: Optional["str"]
     url: Optional["str"]
     picture: Optional["str"]
+
 
 class FileMeta(TypedDict, total=False):
     name: Optional["str"]
@@ -78,10 +86,12 @@ class FileMeta(TypedDict, total=False):
     color: Optional["str"]
     blurHash: Optional["str"]
 
+
 class FileStream(TypedDict, total=False):
     _id: Optional["str"]
     url: Optional["str"]
     thumbnails: Optional["None"]
+
 
 class FileURLs(TypedDict, total=False):
     original: Optional["str"]
@@ -92,6 +102,7 @@ class FileURLs(TypedDict, total=False):
     tracker: Optional["str"]
     thumbnails: Optional["None"]
     stream: Optional["FileStream"]
+
 
 class FileAuthorization(TypedDict, total=False):
     policy: Optional["Any"]
@@ -112,16 +123,19 @@ class FileAuthorization(TypedDict, total=False):
     metaDate: Optional["str"]
     metaCredential: Optional["str"]
 
+
 class FileAuthorizationInput(TypedDict, total=False):
     path: Optional["str"]
     fileType: Optional["None"]
     fileName: Optional["None"]
     fileSize: Optional["None"]
 
+
 class SimpleResponse(TypedDict, total=False):
     success: Optional["bool"]
     response: Optional["Any"]
     errors: Optional["None"]
+
 
 class Error(TypedDict, total=False):
     message: Optional["None"]
@@ -134,6 +148,7 @@ class Error(TypedDict, total=False):
     data: Optional["Any"]
     stacktrace: Optional["Any"]
 
+
 class ErrorInput(TypedDict, total=False):
     message: Optional["None"]
     code: Optional["None"]
@@ -145,18 +160,22 @@ class ErrorInput(TypedDict, total=False):
     data: Optional["Any"]
     stacktrace: Optional["Any"]
 
+
 class PriceLite(TypedDict, total=False):
     amount: Optional["float"]
     currency: Optional["Currency"]
+
 
 class Price(TypedDict, total=False):
     amount: Optional["float"]
     currency: Optional["Currency"]
     converted: Optional["PriceLite"]
 
+
 class PriceInput(TypedDict, total=False):
     amount: Optional["None"]
     currency: Optional["None"]
+
 
 class Currency(str, Enum):
     AED = "AED"
@@ -344,6 +363,7 @@ class Currency(str, Enum):
     AVAX = "AVAX"
     UNI = "UNI"
     XTZ = "XTZ"
+
 
 class Locale(str, Enum):
     AF_NA = "AF_NA"
@@ -783,6 +803,7 @@ class Locale(str, Enum):
     ZU_ZA = "ZU_ZA"
     ZU = "ZU"
 
+
 class Country(str, Enum):
     AF = "AF"
     AX = "AX"
@@ -1031,6 +1052,7 @@ class Country(str, Enum):
     ZM = "ZM"
     ZW = "ZW"
 
+
 class Language(str, Enum):
     AA = "AA"
     AB = "AB"
@@ -1215,6 +1237,7 @@ class Language(str, Enum):
     ZA = "ZA"
     ZH = "ZH"
     ZU = "ZU"
+
 
 class Timezone(str, Enum):
     PACIFIC__NIUE = "PACIFIC__NIUE"
@@ -1468,12 +1491,16 @@ class Timezone(str, Enum):
     PACIFIC__APIA = "PACIFIC__APIA"
     PACIFIC__KIRITIMATI = "PACIFIC__KIRITIMATI"
 
+
 JSON = Any
 Date = Any
 BigInt = Any
+
+
 class Pong(TypedDict, total=False):
     _id: Optional["str"]
     name: Optional["str"]
+
 
 class Subscription(TypedDict, total=False):
     onPing: Optional["Pong"]
@@ -1485,6 +1512,7 @@ class Subscription(TypedDict, total=False):
     onContentDeleted: Optional["Content"]
     onStateSaved: Optional["State"]
     onStateDeleted: Optional["State"]
+
 
 class Mutation(TypedDict, total=False):
     ping: Optional["Pong"]
@@ -1581,6 +1609,7 @@ class Mutation(TypedDict, total=False):
     upload: Optional["File"]
     signUpload: Optional["FileAuthorization"]
 
+
 class Query(TypedDict, total=False):
     info: Optional["Info"]
     account: Optional["Account"]
@@ -1647,10 +1676,12 @@ class Query(TypedDict, total=False):
     publicTarget: Optional["Target"]
     publicTargets: Optional["TargetList"]
 
+
 class Version(TypedDict, total=False):
     key: Optional["str"]
     min: Optional["str"]
     max: Optional["str"]
+
 
 class Info(TypedDict, total=False):
     name: Optional["str"]
@@ -1664,6 +1695,7 @@ class Info(TypedDict, total=False):
     translations: Optional["Any"]
     supported: Optional["bool"]
     operational: Optional["bool"]
+
 
 class SuperRole(str, Enum):
     MASTER = "MASTER"
@@ -1691,6 +1723,7 @@ class SuperRole(str, Enum):
     METAOBSERVER = "METAOBSERVER"
     METAMANAGER = "METAMANAGER"
 
+
 class LoginMethod(str, Enum):
     PASSWORD = "PASSWORD"
     GOOGLE = "GOOGLE"
@@ -1699,19 +1732,23 @@ class LoginMethod(str, Enum):
     LINKEDIN = "LINKEDIN"
     TRUID = "TRUID"
 
+
 class AccountType(str, Enum):
     SUPER = "SUPER"
     USER = "USER"
     GUEST = "GUEST"
     API = "API"
 
+
 class APIKeyType(str, Enum):
     SECRET = "SECRET"
     PUBLIC = "PUBLIC"
 
+
 class Session(TypedDict, total=False):
     token: Optional["None"]
     account: Optional["Account"]
+
 
 class SimpleSession(TypedDict, total=False):
     token: Optional["str"]
@@ -1720,10 +1757,12 @@ class SimpleSession(TypedDict, total=False):
     url: Optional["str"]
     type: Optional["AccountType"]
 
+
 class ServiceInput(TypedDict, total=False):
     name: Optional["None"]
     _id: Optional["str"]
     token: Optional["str"]
+
 
 class SimpleAccount(TypedDict, total=False):
     _id: Optional["str"]
@@ -1731,13 +1770,16 @@ class SimpleAccount(TypedDict, total=False):
     profile: Optional["AccountProfile"]
     createdAt: Optional["date"]
 
+
 class APIScopeEndpoint(TypedDict, total=False):
     _id: Optional["str"]
     path: Optional["str"]
 
+
 class APIScopeOperation(TypedDict, total=False):
     _id: Optional["str"]
     name: Optional["str"]
+
 
 class APIKey(TypedDict, total=False):
     _id: Optional["str"]
@@ -1749,9 +1791,11 @@ class APIKey(TypedDict, total=False):
     account: Optional["SimpleAccount"]
     createdAt: Optional["date"]
 
+
 class APIScopeImpersonation(TypedDict, total=False):
     services: Optional["None"]
     requireToken: Optional["bool"]
+
 
 class APIScope(TypedDict, total=False):
     targets: Optional["None"]
@@ -1759,23 +1803,28 @@ class APIScope(TypedDict, total=False):
     operations: Optional["None"]
     impersonation: Optional["APIScopeImpersonation"]
 
+
 class APIScopeEndpointInput(TypedDict, total=False):
     _id: Optional["str"]
     path: Optional["str"]
+
 
 class APIScopeOperationInput(TypedDict, total=False):
     _id: Optional["str"]
     name: Optional["str"]
 
+
 class APIScopeImpersonationInput(TypedDict, total=False):
     services: Optional["None"]
     requireToken: Optional["bool"]
+
 
 class APIScopeInput(TypedDict, total=False):
     targets: Optional["None"]
     endpoints: Optional["None"]
     operations: Optional["None"]
     impersonation: Optional["APIScopeImpersonationInput"]
+
 
 class Account(TypedDict, total=False):
     _id: Optional["str"]
@@ -1796,6 +1845,7 @@ class Account(TypedDict, total=False):
     availableTargets: Optional["None"]
     lastKnownLocation: Optional["GeoLocation"]
 
+
 class AccountProfile(TypedDict, total=False):
     _id: Optional["str"]
     handle: Optional["str"]
@@ -1810,6 +1860,7 @@ class AccountProfile(TypedDict, total=False):
     order: Optional["int"]
     bio: Optional["str"]
 
+
 class AccountProfileInput(TypedDict, total=False):
     handle: Optional["str"]
     email: Optional["str"]
@@ -1822,6 +1873,7 @@ class AccountProfileInput(TypedDict, total=False):
     picture: Optional["FileInput"]
     bio: Optional["str"]
 
+
 class AccountListFilter(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -1829,9 +1881,11 @@ class AccountListFilter(TypedDict, total=False):
     exclude: Optional["None"]
     types: Optional["None"]
 
+
 class AccountListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class AccountListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -1840,9 +1894,11 @@ class AccountListFilterInput(TypedDict, total=False):
     exclude: Optional["None"]
     types: Optional["None"]
 
+
 class AccountListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class AccountList(TypedDict, total=False):
     items: Optional["None"]
@@ -1856,22 +1912,27 @@ class AccountList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class Email(TypedDict, total=False):
     address: Optional["None"]
     verified: Optional["bool"]
     primary: Optional["bool"]
 
+
 class EmailLite(TypedDict, total=False):
     address: Optional["None"]
     primary: Optional["bool"]
+
 
 class CommunicationSettings(TypedDict, total=False):
     promotional: Optional["bool"]
     transactional: Optional["bool"]
 
+
 class CommunicationSettingsInput(TypedDict, total=False):
     promotional: Optional["bool"]
     transactional: Optional["bool"]
+
 
 class AccountSettings(TypedDict, total=False):
     timezone: Optional["Timezone"]
@@ -1882,6 +1943,7 @@ class AccountSettings(TypedDict, total=False):
     notification: Optional["CommunicationSettings"]
     theme: Optional["str"]
 
+
 class AccountSettingsInput(TypedDict, total=False):
     locale: Optional["Locale"]
     currency: Optional["Currency"]
@@ -1891,13 +1953,16 @@ class AccountSettingsInput(TypedDict, total=False):
     notification: Optional["CommunicationSettingsInput"]
     theme: Optional["str"]
 
+
 class EmailInput(TypedDict, total=False):
     address: Optional["None"]
     primary: Optional["bool"]
     verified: Optional["bool"]
 
+
 class HandleCheckResponse(TypedDict, total=False):
     isAvailable: Optional["bool"]
+
 
 class Collection(TypedDict, total=False):
     _id: Optional["str"]
@@ -1922,6 +1987,7 @@ class Collection(TypedDict, total=False):
     updatedAt: Optional["date"]
     version: Optional["int"]
 
+
 class CollectionInput(TypedDict, total=False):
     title: Optional["MLStringInput"]
     description: Optional["MLStringInput"]
@@ -1935,6 +2001,7 @@ class CollectionInput(TypedDict, total=False):
     publishedUntil: Optional["date"]
     published: Optional["bool"]
 
+
 class CollectionListFilter(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -1947,9 +2014,11 @@ class CollectionListFilter(TypedDict, total=False):
     custom: Optional["str"]
     contentId: Optional["str"]
 
+
 class CollectionListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class CollectionListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -1963,9 +2032,11 @@ class CollectionListFilterInput(TypedDict, total=False):
     custom: Optional["str"]
     contentId: Optional["str"]
 
+
 class CollectionListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class CollectionList(TypedDict, total=False):
     items: Optional["None"]
@@ -1979,10 +2050,12 @@ class CollectionList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class ContentStatus(str, Enum):
     FAILED = "FAILED"
     PROCESSING = "PROCESSING"
     READY = "READY"
+
 
 class ContentFieldType(str, Enum):
     TEXT = "TEXT"
@@ -1990,14 +2063,17 @@ class ContentFieldType(str, Enum):
     BOOLEAN = "BOOLEAN"
     SELECTION = "SELECTION"
 
+
 class ContentBlockType(str, Enum):
     GENERIC = "GENERIC"
     STACK = "STACK"
+
 
 class ContentBlockAppearance(str, Enum):
     GRID = "GRID"
     HORIZONTAL = "HORIZONTAL"
     VERTICAL = "VERTICAL"
+
 
 class ContentCredit(TypedDict, total=False):
     _id: Optional["str"]
@@ -2005,11 +2081,13 @@ class ContentCredit(TypedDict, total=False):
     role: Optional["Meta"]
     primary: Optional["bool"]
 
+
 class ContentCreditInput(TypedDict, total=False):
     _id: Optional["str"]
     subject: Optional["str"]
     role: Optional["str"]
     primary: Optional["bool"]
+
 
 class ContentField(TypedDict, total=False):
     _id: Optional["str"]
@@ -2020,6 +2098,7 @@ class ContentField(TypedDict, total=False):
     min: Optional["int"]
     max: Optional["int"]
 
+
 class ContentFieldInput(TypedDict, total=False):
     _id: Optional["str"]
     label: Optional["MLStringInput"]
@@ -2028,6 +2107,7 @@ class ContentFieldInput(TypedDict, total=False):
     type: Optional["ContentFieldType"]
     min: Optional["int"]
     max: Optional["int"]
+
 
 class ContentAsset(TypedDict, total=False):
     _id: Optional["str"]
@@ -2040,6 +2120,7 @@ class ContentAsset(TypedDict, total=False):
     maxVersion: Optional["str"]
     minVersion: Optional["str"]
 
+
 class ContentAssetInput(TypedDict, total=False):
     _id: Optional["str"]
     title: Optional["MLStringInput"]
@@ -2051,13 +2132,16 @@ class ContentAssetInput(TypedDict, total=False):
     maxVersion: Optional["str"]
     minVersion: Optional["str"]
 
+
 class ContentSourceQuery(TypedDict, total=False):
     filters: Optional["ContentSourceFilter"]
     sort: Optional["None"]
 
+
 class ContentSourceQueryInput(TypedDict, total=False):
     filters: Optional["ContentSourceFilterInput"]
     sort: Optional["None"]
+
 
 class ContentSourceFilter(TypedDict, total=False):
     keyword: Optional["str"]
@@ -2069,6 +2153,7 @@ class ContentSourceFilter(TypedDict, total=False):
     liked: Optional["bool"]
     random: Optional["bool"]
 
+
 class ContentSourceFilterInput(TypedDict, total=False):
     keyword: Optional["str"]
     promptId: Optional["str"]
@@ -2078,6 +2163,7 @@ class ContentSourceFilterInput(TypedDict, total=False):
     recently: Optional["bool"]
     liked: Optional["bool"]
     random: Optional["bool"]
+
 
 class ContentSource(TypedDict, total=False):
     _id: Optional["str"]
@@ -2089,6 +2175,7 @@ class ContentSource(TypedDict, total=False):
     contents: Optional["None"]
     query: Optional["ContentSourceQuery"]
 
+
 class ContentSourceInput(TypedDict, total=False):
     _id: Optional["str"]
     title: Optional["MLStringInput"]
@@ -2098,6 +2185,7 @@ class ContentSourceInput(TypedDict, total=False):
     color: Optional["str"]
     contents: Optional["None"]
     query: Optional["ContentSourceQueryInput"]
+
 
 class ContentVariant(TypedDict, total=False):
     _id: Optional["str"]
@@ -2113,6 +2201,7 @@ class ContentVariant(TypedDict, total=False):
     sources: Optional["None"]
     fields: Optional["None"]
 
+
 class ContentVariantInput(TypedDict, total=False):
     _id: Optional["str"]
     title: Optional["MLStringInput"]
@@ -2126,6 +2215,7 @@ class ContentVariantInput(TypedDict, total=False):
     sources: Optional["None"]
     fields: Optional["None"]
 
+
 class ContentAction(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
@@ -2133,12 +2223,14 @@ class ContentAction(TypedDict, total=False):
     url: Optional["str"]
     content: Optional["Content"]
 
+
 class ContentNodeAsset(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
     file: Optional["MLFile"]
     caption: Optional["MLString"]
     alt: Optional["MLString"]
+
 
 class ContentNode(TypedDict, total=False):
     _id: Optional["str"]
@@ -2157,6 +2249,7 @@ class ContentNode(TypedDict, total=False):
     prompt: Optional["Prompt"]
     sort: Optional["int"]
 
+
 class ContentBlock(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
@@ -2168,6 +2261,7 @@ class ContentBlock(TypedDict, total=False):
     size: Optional["int"]
     nodes: Optional["None"]
     sort: Optional["int"]
+
 
 class Content(TypedDict, total=False):
     _id: Optional["str"]
@@ -2208,6 +2302,7 @@ class Content(TypedDict, total=False):
     location: Optional["GeoLocation"]
     input: Optional["File"]
 
+
 class ContentActionInput(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
@@ -2215,12 +2310,14 @@ class ContentActionInput(TypedDict, total=False):
     url: Optional["str"]
     content: Optional["str"]
 
+
 class ContentNodeAssetInput(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
     file: Optional["MLFileInput"]
     caption: Optional["MLStringInput"]
     alt: Optional["MLStringInput"]
+
 
 class ContentNodeInput(TypedDict, total=False):
     _id: Optional["str"]
@@ -2239,6 +2336,7 @@ class ContentNodeInput(TypedDict, total=False):
     prompt: Optional["str"]
     sort: Optional["int"]
 
+
 class ContentBlockInput(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
@@ -2250,6 +2348,7 @@ class ContentBlockInput(TypedDict, total=False):
     size: Optional["int"]
     nodes: Optional["None"]
     sort: Optional["int"]
+
 
 class ContentInput(TypedDict, total=False):
     key: Optional["str"]
@@ -2275,6 +2374,7 @@ class ContentInput(TypedDict, total=False):
     location: Optional["GeoLocationInput"]
     tags: Optional["None"]
 
+
 class ContentListFilter(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -2292,9 +2392,11 @@ class ContentListFilter(TypedDict, total=False):
     liked: Optional["bool"]
     random: Optional["bool"]
 
+
 class ContentListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class ContentListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -2311,9 +2413,11 @@ class ContentListFilterInput(TypedDict, total=False):
     random: Optional["bool"]
     includeExpired: Optional["bool"]
 
+
 class ContentListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class ContentList(TypedDict, total=False):
     items: Optional["None"]
@@ -2327,12 +2431,14 @@ class ContentList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class DeviceType(str, Enum):
     CAR = "CAR"
     PHONE = "PHONE"
     TABLET = "TABLET"
     TV = "TV"
     SIGNAGE = "SIGNAGE"
+
 
 class Device(TypedDict, total=False):
     _id: Optional["str"]
@@ -2351,6 +2457,7 @@ class Device(TypedDict, total=False):
     disableReason: Optional["str"]
     disabledAt: Optional["date"]
 
+
 class DeviceInput(TypedDict, total=False):
     title: Optional["str"]
     brand: Optional["str"]
@@ -2360,6 +2467,7 @@ class DeviceInput(TypedDict, total=False):
     identifier: Optional["str"]
     picture: Optional["FileInput"]
 
+
 class DeviceListFilter(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -2368,9 +2476,11 @@ class DeviceListFilter(TypedDict, total=False):
     accountId: Optional["str"]
     custom: Optional["str"]
 
+
 class DeviceListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class DeviceListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -2380,9 +2490,11 @@ class DeviceListFilterInput(TypedDict, total=False):
     accountId: Optional["str"]
     custom: Optional["str"]
 
+
 class DeviceListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class DeviceList(TypedDict, total=False):
     items: Optional["None"]
@@ -2396,6 +2508,7 @@ class DeviceList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class Insight(TypedDict, total=False):
     _id: Optional["str"]
     hash: Optional["str"]
@@ -2406,6 +2519,7 @@ class Insight(TypedDict, total=False):
     createdBy: Optional["SimpleAccount"]
     createdAt: Optional["date"]
     updatedAt: Optional["date"]
+
 
 class InsightItem(TypedDict, total=False):
     _id: Optional["str"]
@@ -2420,6 +2534,7 @@ class InsightItem(TypedDict, total=False):
     price: Optional["Price"]
     value: Optional["float"]
 
+
 class InsightList(TypedDict, total=False):
     items: Optional["None"]
     filters: Optional["None"]
@@ -2428,13 +2543,16 @@ class InsightList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class InsightListSort(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
 
+
 class InsightListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class InsightFilter(TypedDict, total=False):
     _id: Optional["str"]
@@ -2448,6 +2566,7 @@ class InsightFilter(TypedDict, total=False):
     sort: Optional["None"]
     limit: Optional["int"]
 
+
 class InsightFilterInput(TypedDict, total=False):
     _id: Optional["str"]
     operation: Optional["str"]
@@ -2460,9 +2579,11 @@ class InsightFilterInput(TypedDict, total=False):
     sort: Optional["None"]
     limit: Optional["int"]
 
+
 class InterestType(str, Enum):
     DIRECT = "DIRECT"
     RELATED = "RELATED"
+
 
 class Interest(TypedDict, total=False):
     _id: Optional["str"]
@@ -2471,9 +2592,11 @@ class Interest(TypedDict, total=False):
     score: Optional["int"]
     createdAt: Optional["date"]
 
+
 class InterestInput(TypedDict, total=False):
     metaId: Optional["str"]
     type: Optional["InterestType"]
+
 
 class InterestListFilter(TypedDict, total=False):
     _id: Optional["None"]
@@ -2484,6 +2607,7 @@ class InterestListFilter(TypedDict, total=False):
     exclude: Optional["None"]
     tags: Optional["None"]
 
+
 class InterestListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -2493,13 +2617,16 @@ class InterestListFilterInput(TypedDict, total=False):
     exclude: Optional["None"]
     tags: Optional["None"]
 
+
 class InterestListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
 
+
 class InterestListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class InterestList(TypedDict, total=False):
     items: Optional["None"]
@@ -2512,6 +2639,7 @@ class InterestList(TypedDict, total=False):
     queryEndedAt: Optional["date"]
     duration: Optional["float"]
     _id: Optional["str"]
+
 
 class WeatherConditionCode(str, Enum):
     BLOWINGDUST = "BLOWINGDUST"
@@ -2549,10 +2677,12 @@ class WeatherConditionCode(str, Enum):
     HURRICANE = "HURRICANE"
     TROPICALSTORM = "TROPICALSTORM"
 
+
 class PressureTrend(str, Enum):
     FALLING = "FALLING"
     RISING = "RISING"
     STEADY = "STEADY"
+
 
 class WeatherData(TypedDict, total=False):
     cloudCover: Optional["float"]
@@ -2574,8 +2704,10 @@ class WeatherData(TypedDict, total=False):
     windGust: Optional["float"]
     windSpeed: Optional["float"]
 
+
 class Weather(TypedDict, total=False):
     current: Optional["WeatherData"]
+
 
 class Location(TypedDict, total=False):
     _id: Optional["str"]
@@ -2592,11 +2724,13 @@ class Location(TypedDict, total=False):
     city: Optional["str"]
     country: Optional["Country"]
 
+
 class LocationInput(TypedDict, total=False):
     latitude: Optional["str"]
     longitude: Optional["str"]
     deviceId: Optional["str"]
     includeWeather: Optional["bool"]
+
 
 class LocationListFilter(TypedDict, total=False):
     _id: Optional["None"]
@@ -2607,9 +2741,11 @@ class LocationListFilter(TypedDict, total=False):
     deviceId: Optional["str"]
     custom: Optional["str"]
 
+
 class LocationListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class LocationListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -2620,9 +2756,11 @@ class LocationListFilterInput(TypedDict, total=False):
     deviceId: Optional["str"]
     custom: Optional["str"]
 
+
 class LocationListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class LocationList(TypedDict, total=False):
     items: Optional["None"]
@@ -2635,6 +2773,7 @@ class LocationList(TypedDict, total=False):
     queryEndedAt: Optional["date"]
     duration: Optional["float"]
     _id: Optional["str"]
+
 
 class LogType(str, Enum):
     ACCESS = "ACCESS"
@@ -2681,6 +2820,7 @@ class LogType(str, Enum):
     DEACTIVATE = "DEACTIVATE"
     VIEW = "VIEW"
 
+
 class LogTopic(str, Enum):
     SUPER = "SUPER"
     COMMUNICATION = "COMMUNICATION"
@@ -2699,6 +2839,7 @@ class LogTopic(str, Enum):
     LOCATION = "LOCATION"
     INTEREST = "INTEREST"
 
+
 class LogAction(str, Enum):
     CLICK = "CLICK"
     SEARCH = "SEARCH"
@@ -2714,11 +2855,13 @@ class LogAction(str, Enum):
     IMPRESSION = "IMPRESSION"
     SHARE = "SHARE"
 
+
 class LogDemographics(TypedDict, total=False):
     birthday: Optional["date"]
     country: Optional["Country"]
     city: Optional["str"]
     location: Optional["GeoLocation"]
+
 
 class LogDemographicsInput(TypedDict, total=False):
     birthday: Optional["date"]
@@ -2726,15 +2869,18 @@ class LogDemographicsInput(TypedDict, total=False):
     city: Optional["str"]
     location: Optional["GeoLocationInput"]
 
+
 class LogViewport(TypedDict, total=False):
     width: Optional["int"]
     height: Optional["int"]
     dpi: Optional["float"]
 
+
 class LogViewportInput(TypedDict, total=False):
     width: Optional["int"]
     height: Optional["int"]
     dpi: Optional["float"]
+
 
 class LogUTM(TypedDict, total=False):
     source: Optional["str"]
@@ -2743,12 +2889,14 @@ class LogUTM(TypedDict, total=False):
     term: Optional["str"]
     content: Optional["str"]
 
+
 class LogUTMInput(TypedDict, total=False):
     source: Optional["str"]
     medium: Optional["str"]
     campaign: Optional["str"]
     term: Optional["str"]
     content: Optional["str"]
+
 
 class LogClient(TypedDict, total=False):
     ip: Optional["str"]
@@ -2764,6 +2912,7 @@ class LogClient(TypedDict, total=False):
     cpu: Optional["Any"]
     location: Optional["GeoLocation"]
 
+
 class LogClientInput(TypedDict, total=False):
     ip: Optional["str"]
     host: Optional["str"]
@@ -2778,17 +2927,20 @@ class LogClientInput(TypedDict, total=False):
     cpu: Optional["Any"]
     location: Optional["GeoLocationInput"]
 
+
 class LogProfile(TypedDict, total=False):
     _id: Optional["str"]
     email: Optional["str"]
     firstName: Optional["str"]
     lastName: Optional["str"]
 
+
 class LogProfileInput(TypedDict, total=False):
     _id: Optional["str"]
     email: Optional["str"]
     firstName: Optional["str"]
     lastName: Optional["str"]
+
 
 class LogPayload(TypedDict, total=False):
     _id: Optional["str"]
@@ -2819,6 +2971,7 @@ class LogPayload(TypedDict, total=False):
     details: Optional["None"]
     raw: Optional["Any"]
 
+
 class LogPayloadInput(TypedDict, total=False):
     _id: Optional["str"]
     __from: Optional["str"]
@@ -2847,6 +3000,7 @@ class LogPayloadInput(TypedDict, total=False):
     basePrice: Optional["PriceInput"]
     demographics: Optional["LogDemographicsInput"]
 
+
 class Log(TypedDict, total=False):
     _id: Optional["str"]
     type: Optional["LogType"]
@@ -2860,35 +3014,43 @@ class Log(TypedDict, total=False):
     disabled: Optional["bool"]
     disableReason: Optional["str"]
 
+
 class LogInput(TypedDict, total=False):
     type: Optional["LogType"]
     topic: Optional["LogTopic"]
     description: Optional["str"]
     payload: Optional["LogPayloadInput"]
 
+
 class LogListFilterTypeItem(TypedDict, total=False):
     value: Optional["None"]
     operator: Optional["ListFilterOperator"]
+
 
 class LogListFilterTypeItemInput(TypedDict, total=False):
     value: Optional["None"]
     operator: Optional["ListFilterOperator"]
 
+
 class LogListFilterTopicItem(TypedDict, total=False):
     value: Optional["None"]
     operator: Optional["ListFilterOperator"]
+
 
 class LogListFilterTopicItemInput(TypedDict, total=False):
     value: Optional["None"]
     operator: Optional["ListFilterOperator"]
 
+
 class LogListFilterActionItem(TypedDict, total=False):
     value: Optional["None"]
     operator: Optional["ListFilterOperator"]
 
+
 class LogListFilterActionItemInput(TypedDict, total=False):
     value: Optional["None"]
     operator: Optional["ListFilterOperator"]
+
 
 class LogListFilter(TypedDict, total=False):
     _id: Optional["None"]
@@ -2903,9 +3065,11 @@ class LogListFilter(TypedDict, total=False):
     related: Optional["None"]
     custom: Optional["str"]
 
+
 class LogListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class LogListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -2920,9 +3084,11 @@ class LogListFilterInput(TypedDict, total=False):
     related: Optional["None"]
     custom: Optional["str"]
 
+
 class LogListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class LogList(TypedDict, total=False):
     items: Optional["None"]
@@ -2936,10 +3102,12 @@ class LogList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class MediaStatus(str, Enum):
     UPLOADING = "UPLOADING"
     UPLOADED = "UPLOADED"
     FAILED = "FAILED"
+
 
 class Media(TypedDict, total=False):
     _id: Optional["str"]
@@ -2958,6 +3126,7 @@ class Media(TypedDict, total=False):
     disableReason: Optional["str"]
     disabled: Optional["bool"]
 
+
 class MediaInput(TypedDict, total=False):
     _id: Optional["str"]
     contentType: Optional["str"]
@@ -2971,6 +3140,7 @@ class MediaInput(TypedDict, total=False):
     title: Optional["str"]
     keywords: Optional["None"]
 
+
 class MediaListFilter(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -2982,9 +3152,11 @@ class MediaListFilter(TypedDict, total=False):
     tags: Optional["None"]
     custom: Optional["str"]
 
+
 class MediaListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class MediaListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -2997,9 +3169,11 @@ class MediaListFilterInput(TypedDict, total=False):
     tags: Optional["None"]
     custom: Optional["str"]
 
+
 class MediaListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class MediaList(TypedDict, total=False):
     items: Optional["None"]
@@ -3013,8 +3187,10 @@ class MediaList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class MetaInsights(TypedDict, total=False):
     usage: Optional["int"]
+
 
 class MetaVariant(TypedDict, total=False):
     _id: Optional["str"]
@@ -3026,6 +3202,7 @@ class MetaVariant(TypedDict, total=False):
     tags: Optional["None"]
     resources: Optional["None"]
 
+
 class MetaVariantInput(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
@@ -3035,6 +3212,7 @@ class MetaVariantInput(TypedDict, total=False):
     picture: Optional["MLFileInput"]
     tags: Optional["None"]
     resources: Optional["None"]
+
 
 class Meta(TypedDict, total=False):
     _id: Optional["str"]
@@ -3056,6 +3234,7 @@ class Meta(TypedDict, total=False):
     disabledAt: Optional["date"]
     published: Optional["bool"]
 
+
 class MetaInput(TypedDict, total=False):
     label: Optional["MLStringInput"]
     description: Optional["MLStringInput"]
@@ -3070,6 +3249,7 @@ class MetaInput(TypedDict, total=False):
     resources: Optional["None"]
     variants: Optional["None"]
 
+
 class MetaListFilter(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -3078,6 +3258,7 @@ class MetaListFilter(TypedDict, total=False):
     types: Optional["None"]
     targets: Optional["None"]
     tags: Optional["None"]
+
 
 class MetaListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -3089,13 +3270,16 @@ class MetaListFilterInput(TypedDict, total=False):
     tags: Optional["None"]
     keys: Optional["None"]
 
+
 class MetaListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
 
+
 class MetaListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class MetaList(TypedDict, total=False):
     items: Optional["None"]
@@ -3109,6 +3293,7 @@ class MetaList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class PromptMessage(TypedDict, total=False):
     _id: Optional["str"]
     prompt: Optional["Prompt"]
@@ -3116,10 +3301,12 @@ class PromptMessage(TypedDict, total=False):
     params: Optional["Any"]
     results: Optional["Any"]
 
+
 class PromptRunInput(TypedDict, total=False):
     contentInitialParams: Optional["ContentInput"]
     attachment: Optional["FileInput"]
     params: Optional["Any"]
+
 
 class PromptSQS(TypedDict, total=False):
     url: Optional["str"]
@@ -3127,11 +3314,13 @@ class PromptSQS(TypedDict, total=False):
     key: Optional["str"]
     region: Optional["str"]
 
+
 class PromptSQSInput(TypedDict, total=False):
     url: Optional["str"]
     secret: Optional["str"]
     key: Optional["str"]
     region: Optional["str"]
+
 
 class Prompt(TypedDict, total=False):
     _id: Optional["str"]
@@ -3162,6 +3351,7 @@ class Prompt(TypedDict, total=False):
     version: Optional["int"]
     contentInitialParams: Optional["Content"]
 
+
 class PromptInput(TypedDict, total=False):
     key: Optional["str"]
     title: Optional["MLStringInput"]
@@ -3182,6 +3372,7 @@ class PromptInput(TypedDict, total=False):
     published: Optional["bool"]
     contentInitialParams: Optional["ContentInput"]
 
+
 class PromptListFilter(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -3194,9 +3385,11 @@ class PromptListFilter(TypedDict, total=False):
     custom: Optional["str"]
     contentId: Optional["str"]
 
+
 class PromptListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class PromptListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -3210,9 +3403,11 @@ class PromptListFilterInput(TypedDict, total=False):
     custom: Optional["str"]
     contentId: Optional["str"]
 
+
 class PromptListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class PromptList(TypedDict, total=False):
     items: Optional["None"]
@@ -3226,6 +3421,7 @@ class PromptList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class ReactionType(str, Enum):
     LIKEMETA = "LIKEMETA"
     LIKEPROMPT = "LIKEPROMPT"
@@ -3234,7 +3430,9 @@ class ReactionType(str, Enum):
     LIKEREACTION = "LIKEREACTION"
     COMMENT = "COMMENT"
 
+
 ReactionPayload = Any
+
 
 class Reaction(TypedDict, total=False):
     _id: Optional["str"]
@@ -3249,6 +3447,7 @@ class Reaction(TypedDict, total=False):
     createdAt: Optional["date"]
     updatedAt: Optional["date"]
 
+
 class ReactionInput(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
@@ -3257,6 +3456,7 @@ class ReactionInput(TypedDict, total=False):
     body: Optional["str"]
     value: Optional["int"]
     attachments: Optional["None"]
+
 
 class ReactionListFilter(TypedDict, total=False):
     _id: Optional["None"]
@@ -3268,6 +3468,7 @@ class ReactionListFilter(TypedDict, total=False):
     createdBy: Optional["str"]
     to: Optional["str"]
 
+
 class ReactionListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
     keys: Optional["ListFilterItemInput"]
@@ -3278,13 +3479,16 @@ class ReactionListFilterInput(TypedDict, total=False):
     createdBy: Optional["str"]
     to: Optional["str"]
 
+
 class ReactionListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
 
+
 class ReactionListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class ReactionList(TypedDict, total=False):
     items: Optional["None"]
@@ -3297,6 +3501,7 @@ class ReactionList(TypedDict, total=False):
     queryEndedAt: Optional["date"]
     duration: Optional["float"]
     _id: Optional["str"]
+
 
 class State(TypedDict, total=False):
     _id: Optional["str"]
@@ -3315,6 +3520,7 @@ class State(TypedDict, total=False):
     disableReason: Optional["str"]
     disabledAt: Optional["date"]
 
+
 class StateInput(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
@@ -3325,9 +3531,11 @@ class StateInput(TypedDict, total=False):
     deviceId: Optional["str"]
     targetId: Optional["str"]
 
+
 class StateListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class StateListFilter(TypedDict, total=False):
     _id: Optional["None"]
@@ -3339,6 +3547,7 @@ class StateListFilter(TypedDict, total=False):
     accountId: Optional["str"]
     custom: Optional["str"]
 
+
 class StateListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
     keyword: Optional["str"]
@@ -3349,9 +3558,11 @@ class StateListFilterInput(TypedDict, total=False):
     accountId: Optional["str"]
     custom: Optional["str"]
 
+
 class StateListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class StateList(TypedDict, total=False):
     items: Optional["None"]
@@ -3365,6 +3576,7 @@ class StateList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class TargetClient(TypedDict, total=False):
     _id: Optional["str"]
     name: Optional["str"]
@@ -3372,6 +3584,7 @@ class TargetClient(TypedDict, total=False):
     currentVersion: Optional["str"]
     minVersion: Optional["str"]
     maxVersion: Optional["str"]
+
 
 class TargetClientInput(TypedDict, total=False):
     _id: Optional["str"]
@@ -3381,19 +3594,24 @@ class TargetClientInput(TypedDict, total=False):
     minVersion: Optional["str"]
     maxVersion: Optional["str"]
 
+
 class TargetEmailConfig(TypedDict, total=False):
     welcome: Optional["bool"]
 
+
 class TargetEmailConfigInput(TypedDict, total=False):
     welcome: Optional["bool"]
+
 
 class TargetConfig(TypedDict, total=False):
     email: Optional["TargetEmailConfig"]
     clients: Optional["None"]
 
+
 class TargetConfigInput(TypedDict, total=False):
     email: Optional["TargetEmailConfigInput"]
     clients: Optional["None"]
+
 
 class Target(TypedDict, total=False):
     _id: Optional["str"]
@@ -3413,6 +3631,7 @@ class Target(TypedDict, total=False):
     lastUsed: Optional["date"]
     config: Optional["TargetConfig"]
 
+
 class TargetInput(TypedDict, total=False):
     key: Optional["str"]
     title: Optional["MLStringInput"]
@@ -3421,6 +3640,7 @@ class TargetInput(TypedDict, total=False):
     color: Optional["str"]
     tags: Optional["None"]
     config: Optional["TargetConfigInput"]
+
 
 class TargetListFilter(TypedDict, total=False):
     _id: Optional["None"]
@@ -3432,9 +3652,11 @@ class TargetListFilter(TypedDict, total=False):
     custom: Optional["str"]
     tags: Optional["None"]
 
+
 class TargetListSort(TypedDict, total=False):
     key: Optional["str"]
     order: Optional["int"]
+
 
 class TargetListFilterInput(TypedDict, total=False):
     _id: Optional["None"]
@@ -3446,9 +3668,11 @@ class TargetListFilterInput(TypedDict, total=False):
     custom: Optional["str"]
     tags: Optional["None"]
 
+
 class TargetListSortInput(TypedDict, total=False):
     key: Optional["None"]
     order: Optional["None"]
+
 
 class TargetList(TypedDict, total=False):
     items: Optional["None"]
@@ -3462,11 +3686,13 @@ class TargetList(TypedDict, total=False):
     duration: Optional["float"]
     _id: Optional["str"]
 
+
 class KeyValue(TypedDict, total=False):
     _id: Optional["str"]
     key: Optional["str"]
     value: Optional["str"]
     attachment: Optional["File"]
+
 
 class KeyValueInput(TypedDict, total=False):
     _id: Optional["str"]
@@ -3474,9 +3700,11 @@ class KeyValueInput(TypedDict, total=False):
     value: Optional["str"]
     attachment: Optional["FileInput"]
 
+
 class CacheControlScope(str, Enum):
     PUBLIC = "PUBLIC"
     PRIVATE = "PRIVATE"
+
 
 class GeoLocationType(str, Enum):
     POINT = "POINT"
@@ -3487,30 +3715,37 @@ class GeoLocationType(str, Enum):
     MULTIPOLYGON = "MULTIPOLYGON"
     GEOMETRYCOLLECTION = "GEOMETRYCOLLECTION"
 
+
 class ListExclude(str, Enum):
     DISABLED = "DISABLED"
     COUNT = "COUNT"
+
 
 class SetupResponse(TypedDict, total=False):
     success: Optional["bool"]
     report: Optional["Any"]
 
+
 class GeoLocation(TypedDict, total=False):
     type: Optional["GeoLocationType"]
     coordinates: Optional["Any"]
 
+
 class GeoLocationInput(TypedDict, total=False):
     type: Optional["None"]
     coordinates: Optional["None"]
+
 
 class Phone(TypedDict, total=False):
     code: Optional["None"]
     number: Optional["None"]
     verified: Optional["bool"]
 
+
 class PhoneInput(TypedDict, total=False):
     code: Optional["str"]
     number: Optional["str"]
+
 
 class MLString(TypedDict, total=False):
     current: Optional["str"]
@@ -3521,6 +3756,7 @@ class MLString(TypedDict, total=False):
     fr: Optional["str"]
     it: Optional["str"]
 
+
 class MLArrayOfString(TypedDict, total=False):
     current: Optional["None"]
     en: Optional["None"]
@@ -3530,6 +3766,7 @@ class MLArrayOfString(TypedDict, total=False):
     fr: Optional["None"]
     it: Optional["None"]
 
+
 class MLStringInput(TypedDict, total=False):
     en: Optional["str"]
     tr: Optional["str"]
@@ -3538,6 +3775,7 @@ class MLStringInput(TypedDict, total=False):
     fr: Optional["str"]
     it: Optional["str"]
 
+
 class MLArrayOfStringInput(TypedDict, total=False):
     en: Optional["None"]
     tr: Optional["None"]
@@ -3545,6 +3783,7 @@ class MLArrayOfStringInput(TypedDict, total=False):
     de: Optional["None"]
     fr: Optional["None"]
     it: Optional["None"]
+
 
 class MLFile(TypedDict, total=False):
     current: Optional["File"]
@@ -3555,6 +3794,7 @@ class MLFile(TypedDict, total=False):
     fr: Optional["File"]
     it: Optional["File"]
 
+
 class MLFileInput(TypedDict, total=False):
     en: Optional["FileInput"]
     tr: Optional["FileInput"]
@@ -3563,13 +3803,16 @@ class MLFileInput(TypedDict, total=False):
     fr: Optional["FileInput"]
     it: Optional["FileInput"]
 
+
 class DateRange(TypedDict, total=False):
     __from: Optional["date"]
     to: Optional["date"]
 
+
 class DateRangeInput(TypedDict, total=False):
     __from: Optional["date"]
     to: Optional["date"]
+
 
 class ListFilterOperator(str, Enum):
     INCLUDE = "INCLUDE"
@@ -3581,10 +3824,12 @@ class ListFilterOperator(str, Enum):
     ALL_OPTIONAL = "ALL_OPTIONAL"
     NOT_ALL_OPTIONAL = "NOT_ALL_OPTIONAL"
 
+
 class ListFilterItem(TypedDict, total=False):
     value: Optional["None"]
     operator: Optional["ListFilterOperator"]
     key: Optional["str"]
+
 
 class ListFilterItemInput(TypedDict, total=False):
     value: Optional["None"]

@@ -1,16 +1,11 @@
 # Type definitions
-from typing import Any, Dict, Generic, Literal, Optional, TypeVar, TypedDict
+from typing import Dict, Generic, TypeVar
 
 from AIRunner.AIRunner import AIRunner
 from AIRunner.Types.PromptMessage import PromptMessage
+from AIRunner.Types.PipelineTypes import AIRunnerPipelineResult
 
 TStore = TypeVar("TStore")
-
-
-class AIRunnerPipelineResult(TypedDict, total=False):
-    type: Literal["success", "error"]
-    message: Optional[str]
-    body: Dict[str, Any]
 
 
 class AIRunnerPipeline(Generic[TStore]):
