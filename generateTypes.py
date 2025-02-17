@@ -5,7 +5,7 @@ from typing import Any, Dict
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SCHEMA_FILE = os.path.join(BASE_DIR, "graphql.schema.json")
-OUTPUT_FILE = os.path.join(BASE_DIR, "AIRunner/SuperNeva/Types.py")
+OUTPUT_FILE = os.path.join(BASE_DIR, "AIRunner/SuperNevaTypes.py")
 
 print(OUTPUT_FILE)
 print(SCHEMA_FILE)
@@ -28,15 +28,16 @@ def map_graphql_to_python(type_name: str) -> str:
         "Date": "date",
         "JSON": "Any",
     }
+
     return mappings.get(type_name, type_name)  # Default to custom type
 
 
 def generate_pyi(schema: Dict[str, Any]) -> str:
     """Generate Python type hints from GraphQL schema."""
     output = [
-        "from enum import Enum\n",
-        "from datetime import date\n",
-        "from typing import TypedDict, Optional, Any\n",
+        "from enum import Enum",
+        "from datetime import date",
+        "from typing import TypedDict, Optional, Any, List\n",
     ]
 
     types = schema.get("data", {}).get("__schema", {}).get("types", [])
@@ -49,7 +50,11 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
             output.append(f"class {name}(TypedDict, total=False):")
             for field in gql_type.get("inputFields", []):
                 field_name = field["name"]
-                field_type = map_graphql_to_python(field["type"]["name"])
+                # handle list type
+                if field["type"]["kind"] == "LIST":
+                    field_type = map_graphql_to_python(field["type"]["ofType"]["name"])
+                else:
+                    field_type = map_graphql_to_python(field["type"]["name"])
                 if field_name == "from":
                     field_name = f"__{field_name}"
                 output.append(f'    {field_name}: Optional["{field_type}"]')
@@ -59,10 +64,24 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
             output.append(f"class {name}(TypedDict, total=False):")
             for field in gql_type.get("fields", []):
                 field_name = field["name"]
-                field_type = map_graphql_to_python(field["type"]["name"])
                 if field_name == "from":
                     field_name = f"__{field_name}"
-                output.append(f'    {field_name}: Optional["{field_type}"]')
+                # handle list type
+                if field["type"]["kind"] == "LIST":
+                    print(field["type"])
+                    if field["type"]["ofType"]["kind"] == "NON_NULL":
+                        field_type = map_graphql_to_python(
+                            field["type"]["ofType"]["ofType"]["name"]
+                        )
+                    else:
+                        field_type = map_graphql_to_python(
+                            field["type"]["ofType"]["name"]
+                        )
+                    output.append(f'    {field_name}: Optional[List["{field_type}"]]')
+                else:
+                    field_type = map_graphql_to_python(field["type"]["name"])
+                    output.append(f'    {field_name}: Optional["{field_type}"]')
+
             output.append("")
 
         elif kind == "ENUM":
