@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="AIRunner",
-    version="0.1.1",
+    version="0.1.2",
     packages=find_packages(),
     install_requires=[
         "boto3",
@@ -26,9 +26,9 @@ setup(
     ],
     package_data={
         "AIRunner": ["py.typed", "**/*.py"],
-        "AIRunner.AIRunner": ["**/*.py"],
-        "AIRunner.SuperNeva": ["**/*.py"],
-        "AIRunner.Types": ["**/*.py"],
+        "AIRunner.AIRunner": ["py.typed", "**/*.py"],
+        "AIRunner.SuperNeva": ["py.typed", "**/*.py"],
+        "AIRunner.Types": ["py.typed", "**/*.py"],
     },
     include_package_data=True,
 )
