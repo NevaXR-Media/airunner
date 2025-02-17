@@ -1,8 +1,7 @@
-import os
 from setuptools import setup, find_packages
 
 setup(
-    name="AIRunner",
+    name="air",
     version="0.1.0",
     packages=find_packages(),
     install_requires=[
@@ -13,9 +12,9 @@ setup(
     ],
     python_requires=">=3.7",
     description="AI Runner library",
-    author="Your Name",
-    author_email="your.email@example.com",
-    url="https://github.com/yourusername/AIRunner",
+    author="Berkay Sargın",
+    author_email="berkay@nevaxr.com",
+    url="https://github.com/nevaxr/ai-runner",
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
