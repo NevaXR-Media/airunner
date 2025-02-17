@@ -1,11 +1,8 @@
-from typing import TYPE_CHECKING, Any, Dict, Literal, Optional, TypedDict
-
 from enum import Enum
-from typing import List, Optional, TypedDict, TYPE_CHECKING, Dict, Any, Union
+from typing import List, Optional, TypedDict, Dict, Any, Union, Literal
 from datetime import date
 
-if TYPE_CHECKING:
-    from AIRunner.SuperNevaTypes import MLString, MLFile, File
+from AIRunner.SuperNevaTypes import MLString, MLFile, File
 
 
 class ContentStatus(str, Enum):

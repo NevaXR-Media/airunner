@@ -1,7 +1,5 @@
 from enum import Enum
-
 from datetime import date
-
 from typing import TypedDict, Optional, Any
 
 
