@@ -1,0 +1,5 @@
+boto3
+aws-sqs-consumer
+typing
+setuptools 
+requests

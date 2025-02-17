@@ -1,0 +1,136 @@
+from typing import Any, List, Optional
+import requests
+import boto3  # type: ignore
+from AIRunner.AIRunnerConfig import AIRunnerConfig
+from AIRunner.AIRunnerLogger import AIRunnerLogger
+from AIRunner.SuperNeva.Types import File
+from AIRunner.SuperNeva.Types import LogInput
+from AIRunner.SuperNeva.Types import MetaInput
+
+
+class SNRequest:
+    def __init__(self, config: AIRunnerConfig) -> None:
+        self.config = config
+        self.logger = AIRunnerLogger(name="SNRequest", colorize=False)
+        self.base_url = config.base_url
+        self.public = config.public
+
+    def request(
+        self,
+        path: str,
+        body: Any,
+        account_id: Optional[str] = None,
+        token: Optional[str] = None,
+        provider: Optional[str] = "neva",
+    ) -> Any:
+        headers = {
+            "content-type": "application/json",
+            "x-public-key": self.public,
+            "x-impersonate": (
+                token
+                if f"{provider}:::{account_id}:::{token}"
+                else f"{provider}:::{account_id}"
+            ),
+        }
+        try:
+            response = requests.post(self.base_url + path, headers=headers, json=body)
+            return response.json()
+        except Exception as e:
+            self.logger.error("Request failed: " + path)
+            return {
+                "errors": [
+                    {
+                        "message": "Request failed",
+                        "raw": str(e),
+                    }
+                ]
+            }
+
+
+class Logs(SNRequest):
+    def create(self, data: LogInput) -> Any:
+        data_array = [data]
+        return self.request("/logs/create", {"data": data_array})
+
+
+class Metas(SNRequest):
+    def create(self, data: List[MetaInput], account_id: str) -> Any:
+        return self.request("/metas/create", {"data": data}, account_id)
+
+    def get(self, metaId: str, account_id: str) -> Any:
+        return self.request(f"/metas/{metaId}", {}, account_id)
+
+
+class Files(SNRequest):
+    def upload(
+        self,
+        content_type: str,
+        data: Any,
+        account_id: str,
+        path: Optional[str] = None,
+        key: Optional[str] = None,
+    ) -> Any:
+
+        fileData = self.request(
+            "/files/upload",
+            {"key": key, "contentType": content_type, "data": data, "path": path},
+            account_id,
+        )
+        # cast data["data"]["upload"] to File
+        return File(**fileData)
+
+
+class SNSQS:
+    def __init__(self, config: AIRunnerConfig) -> None:
+        self.config = config
+        self.logger = AIRunnerLogger(name="SuperNeva", colorize=False)
+
+        self.region_name = config.superneva_sqs_config.region
+        self.aws_secret_access_key = config.superneva_sqs_config.secret
+        self.aws_access_key_id = config.superneva_sqs_config.key
+        self.url = config.superneva_sqs_config.url
+
+        self.sqs = boto3.client(  # type: ignore
+            "sqs",
+            region_name=self.region_name,
+            aws_access_key_id=self.aws_access_key_id,
+            aws_secret_access_key=self.aws_secret_access_key,
+        )
+
+        self.base_url = config.base_url
+        self.public = config.public
+
+    def push(self, body: Any, groupId: str, deduplicationId: str) -> None:
+        self.logger.info("Pushing message to SQS")
+        self.sqs.send_message(  # type: ignore
+            QueueUrl=self.url,
+            MessageBody=body,
+            MessageGroupId=groupId,
+            MessageDeduplicationId=deduplicationId,
+        )
+
+
+class SuperNeva:
+    def __init__(self, config: AIRunnerConfig) -> None:
+        self.config = config
+        self.logger = AIRunnerLogger(name="SuperNeva", colorize=False)
+
+        self.region_name = config.superneva_sqs_config.region
+        self.aws_secret_access_key = config.superneva_sqs_config.secret
+        self.aws_access_key_id = config.superneva_sqs_config.key
+
+        self.sqs = boto3.client(  # type: ignore
+            "sqs",
+            region_name=self.region_name,
+            aws_access_key_id=self.aws_access_key_id,
+            aws_secret_access_key=self.aws_secret_access_key,
+        )
+
+        self.base_url = config.base_url
+        self.public = config.public
+
+        self.logs = Logs(config)
+        # self.metas = Metas(config)
+        self.files = Files(config)
+        self.metas = Metas(config)
+        self.queue = SNSQS(config)
