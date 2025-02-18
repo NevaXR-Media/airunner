@@ -115,6 +115,10 @@ class SuperNeva:
         self.config = config
         self.logger = AIRunnerLogger(name="SuperNeva", colorize=False)
 
+        self.isSuperNevaReady = config.base_url != ""
+        self.isConsumerReady = config.consumer_sqs_config.key != ""
+        self.isResponseQueueReady = config.superneva_sqs_config.key != ""
+
         self.region_name = config.superneva_sqs_config.region
         self.aws_secret_access_key = config.superneva_sqs_config.secret
         self.aws_access_key_id = config.superneva_sqs_config.key

@@ -27,10 +27,14 @@ class AIRunner(Generic[TStore]):
         logger: Optional[AIRunnerLogger] = None,
         onErrorHandler: Optional[
             Callable[
-                [PromptMessage],
+                [str, float, PromptMessage, Any],
                 None,
             ]
         ] = None,
+        onSuccessHandler: Optional[
+            Callable[[PromptMessage, PromptMessage], None]
+        ] = None,
+        onLogHandler: Optional[Callable[[str, float, PromptMessage, Any], None]] = None,
     ) -> None:
         self.config = config
         self.store = AIRunnerGenericStore[TStore]()
@@ -46,17 +50,24 @@ class AIRunner(Generic[TStore]):
         self.logger.info("Runner initialized.")
         print(" ")
         self.onErrorHandler = onErrorHandler
+        self.onSuccessHandler = onSuccessHandler
+        self.onLogHandler = onLogHandler
 
     def onSuccess(self, message: PromptMessage, body: PromptMessage) -> None:
         self.logger.info("Run successfully finished.")
         prompt = message.get("prompt")
         content = message.get("content")
-        if prompt and content:
-            self.context.queue.push(  # type: ignore
-                body=json.dumps(body),
-                groupId=prompt.get("_id") or "default",
-                deduplicationId=content.get("_id") or "default",
-            )
+
+        if self.context.isResponseQueueReady:
+            if prompt and content:
+                self.context.queue.push(  # type: ignore
+                    body=json.dumps(body),
+                    groupId=prompt.get("_id") or "default",
+                    deduplicationId=content.get("_id") or "default",
+                )
+
+        if self.onSuccessHandler:
+            self.onSuccessHandler(message, body)
 
     def onLog(
         self, message: str, duration: float, payload: PromptMessage, result: Any
@@ -74,64 +85,69 @@ class AIRunner(Generic[TStore]):
             self.logger.error("Invalid content.")
             return
 
-        if prompt and content:
-            log_data: LogInput = LogInput(
-                description=message,
-                topic=LogTopic.PROMPT,
-                type=LogType.EVENT,
-                payload=LogPayloadInput(
-                    _id=str(prompt.get("_id") or "?"),
-                    related={
-                        "contentId": str(content.get("_id") or "?"),
-                    },
-                    key="taskMessage",
-                    value={
-                        "result": result,
-                        "payload": payload,
-                    },
-                    message=message,
-                    code="200",
-                    duration=duration,
-                ),
-            )
-            self.context.logs.create(log_data)
-        else:
-            self.logger.error("Invalid message.")
+        if self.context.isSuperNevaReady:
+            if prompt and content:
+                log_data: LogInput = LogInput(
+                    description=message,
+                    topic=LogTopic.PROMPT,
+                    type=LogType.EVENT,
+                    payload=LogPayloadInput(
+                        _id=str(prompt.get("_id") or "?"),
+                        related={
+                            "contentId": str(content.get("_id") or "?"),
+                        },
+                        key="taskMessage",
+                        value={
+                            "result": result,
+                            "payload": payload,
+                        },
+                        message=message,
+                        code="200",
+                        duration=duration,
+                    ),
+                )
+                self.context.logs.create(log_data)
+            else:
+                self.logger.error("Invalid message.")
+
+        if self.onLogHandler:
+            self.onLogHandler(message, duration, payload, result)
 
     def onError(
         self, message: str, duration: float, payload: PromptMessage, result: Any
     ) -> None:
         self.logger.info("New Error: " + message)
 
-        prompt = payload.get("prompt")
-        content = payload.get("content")
+        if self.context.isSuperNevaReady:
+            prompt = payload.get("prompt")
+            content = payload.get("content")
 
-        if prompt and content:
-            log_data = LogInput(
-                description=message,
-                topic=LogTopic.PROMPT,
-                type=LogType.ERROR,
-                payload=LogPayloadInput(
-                    _id=str(prompt.get("_id") or "?"),
-                    related={
-                        "contentId": str(content.get("_id") or "?"),
-                    },
-                    key="taskMessage",
-                    value={
-                        "result": result,
-                        "payload": payload,
-                    },
-                    message=message,
-                    code="500",
-                    duration=duration,
-                ),
-            )
-            self.context.logs.create(log_data)
-        else:
-            self.logger.error("Invalid message.")
+            if prompt and content:
+                log_data = LogInput(
+                    description=message,
+                    topic=LogTopic.PROMPT,
+                    type=LogType.ERROR,
+                    payload=LogPayloadInput(
+                        _id=str(prompt.get("_id") or "?"),
+                        related={
+                            "contentId": str(content.get("_id") or "?"),
+                        },
+                        key="taskMessage",
+                        value={
+                            "result": result,
+                            "payload": payload,
+                        },
+                        message=message,
+                        code="500",
+                        duration=duration,
+                    ),
+                )
+                self.context.logs.create(log_data)
+            else:
+                self.logger.error("Invalid message.")
 
         if self.onErrorHandler:
-            self.onErrorHandler(payload)
+            self.onErrorHandler(message, duration, payload, result)
 
     def generate(self, payload: PromptMessage) -> Any:
 
