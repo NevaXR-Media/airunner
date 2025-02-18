@@ -61,6 +61,12 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
             output.append("")
 
         elif kind == "OBJECT" and not name.startswith("__"):
+            if name == "Mutation":
+                continue
+            if name == "Query":
+                continue
+            if name == "Subscription":
+                continue
             output.append(f"class {name}(TypedDict, total=False):")
             for field in gql_type.get("fields", []):
                 field_name = field["name"]
@@ -68,7 +74,6 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
                     field_name = f"__{field_name}"
                 # handle list type
                 if field["type"]["kind"] == "LIST":
-                    print(field["type"])
                     if field["type"]["ofType"]["kind"] == "NON_NULL":
                         field_type = map_graphql_to_python(
                             field["type"]["ofType"]["ofType"]["name"]

@@ -1,4 +1,5 @@
 from typing import Any, List, Optional
+from typing_extensions import TypedDict
 import requests
 import boto3  # type: ignore
 from AIRunner.AIRunnerConfig import AIRunnerConfig
@@ -6,6 +7,12 @@ from AIRunner.AIRunnerLogger import AIRunnerLogger
 from AIRunner.SuperNevaTypes import File
 from AIRunner.SuperNevaTypes import LogInput
 from AIRunner.SuperNevaTypes import MetaInput
+
+
+class Auth(TypedDict, total=False):
+    account_id: Optional[str]
+    token: Optional[str]
+    provider: Optional[str]
 
 
 class SNRequest:
@@ -19,19 +26,23 @@ class SNRequest:
         self,
         path: str,
         body: Any,
-        account_id: Optional[str] = None,
-        token: Optional[str] = None,
-        provider: Optional[str] = "neva",
+        auth: Optional[Auth] = None,
     ) -> Any:
-        headers = {
-            "content-type": "application/json",
-            "x-public-key": self.public,
-            "x-impersonate": (
-                token
-                if f"{provider}:::{account_id}:::{token}"
-                else f"{provider}:::{account_id}"
-            ),
-        }
+        if auth is None:
+            headers = {
+                "content-type": "application/json",
+                "x-public-key": self.public,
+            }
+        else:
+            headers = {
+                "content-type": "application/json",
+                "x-public-key": self.public,
+                "x-impersonate": (
+                    auth.get("token")
+                    if f"{auth.get('provider')}:::{auth.get('account_id')}:::{auth.get('token')}"
+                    else f"{auth.get('provider')}:::{auth.get('account_id')}"
+                ),
+            }
         try:
             response = requests.post(self.base_url + path, headers=headers, json=body)
             return response.json()
@@ -55,10 +66,12 @@ class Logs(SNRequest):
 
 class Metas(SNRequest):
     def create(self, data: List[MetaInput], account_id: str) -> Any:
-        return self.request("/metas/create", {"data": data}, account_id)
+        return self.request(
+            "/metas/create", {"data": data}, Auth(account_id=account_id)
+        )
 
     def get(self, metaId: str, account_id: str) -> Any:
-        return self.request(f"/metas/{metaId}", {}, account_id)
+        return self.request(f"/metas/{metaId}", {}, Auth(account_id=account_id))
 
 
 class Files(SNRequest):
@@ -74,7 +87,7 @@ class Files(SNRequest):
         fileData = self.request(
             "/files/upload",
             {"key": key, "contentType": content_type, "data": data, "path": path},
-            account_id,
+            Auth(account_id=account_id),
         )
         # cast data["data"]["upload"] to File
         return File(**fileData)
