@@ -207,11 +207,8 @@ class PromptMessage(TypedDict, total=False):
     results: Optional[Dict[str, Any]]
     accountId: Optional[str]
 
-
-class AIRunnerPipelineResult(TypedDict, total=False):
-    type: Literal["success", "error"]
+    duration: Optional[float]
     message: Optional[str]
-    body: Dict[str, Any]
 
 
 class Resource(TypedDict, total=False):
@@ -263,3 +260,9 @@ class Prompt(TypedDict, total=False):
     updatedBy: Optional[str]
     createdAt: Optional[date]
     updatedAt: Optional[date]
+
+
+class AIRunnerPipelineResult(TypedDict, total=False):
+    type: Literal["success", "error"]
+    message: Optional[str]
+    body: PromptMessage

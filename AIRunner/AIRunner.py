@@ -1,6 +1,6 @@
 import json
 import timeit
-from typing import Any, Dict, Generic, List, TypeVar, Optional
+from typing import Any, Callable, Dict, Generic, List, TypeVar, Optional
 import boto3  # type: ignore
 from aws_sqs_consumer import Consumer, Message  # type: ignore
 from AIRunner.AIRunnerConfig import AIRunnerConfig
@@ -25,22 +25,27 @@ class AIRunner(Generic[TStore]):
         config: AIRunnerConfig,
         pipes: List[Any] = [],
         logger: Optional[AIRunnerLogger] = None,
+        onErrorHandler: Optional[
+            Callable[
+                [PromptMessage],
+                None,
+            ]
+        ] = None,
     ) -> None:
         self.config = config
         self.store = AIRunnerGenericStore[TStore]()
         self.pipes = pipes or []
         self.logger = logger or AIRunnerLogger(name="AIRunner", colorize=False)
         self.context = SuperNeva(config)
-        print(self.context)
         self.sqs = boto3.client(  # type: ignore
             "sqs",
             region_name=config.consumer_sqs_config.region,
             aws_access_key_id=config.consumer_sqs_config.key,
             aws_secret_access_key=config.consumer_sqs_config.secret,
         )
-
         self.logger.info("Runner initialized.")
         print(" ")
+        self.onErrorHandler = onErrorHandler
 
     def onSuccess(self, message: PromptMessage, body: PromptMessage) -> None:
         self.logger.info("Run successfully finished.")
@@ -70,7 +75,6 @@ class AIRunner(Generic[TStore]):
             return
 
         if prompt and content:
-
             log_data: LogInput = LogInput(
                 description=message,
                 topic=LogTopic.PROMPT,
@@ -125,6 +129,9 @@ class AIRunner(Generic[TStore]):
             self.context.logs.create(log_data)
         else:
             self.logger.error("Invalid message.")
+
+        if self.onErrorHandler:
+            self.onErrorHandler(payload)
 
     def generate(self, payload: PromptMessage) -> Any:
 
@@ -248,6 +255,7 @@ class AIRunner(Generic[TStore]):
         for pipe in self.pipes:
             # Setup the pipe
             pipe.setup(runner=self)
+            # Download the pipe required resources
             pipe.download()
             # Load the pipe
             pipe.load()
