@@ -1,6 +1,7 @@
 from enum import Enum # type: ignore
 from datetime import date # type: ignore
 from typing import TypedDict, Optional, Any, List # type: ignore
+from AIRunner import AIRunnerConfig
 from SuperNeva import SNRequest, Auth
 from SuperNevaTypes import (
     AccountProfileInput,
@@ -39,6 +40,7 @@ from SuperNevaTypes import (
     TargetListSortInput
 )
 
+  
 class Prompts(SNRequest):
     def get(self, promptId: "str", _auth: Optional[Auth] = None) -> Prompt:
         return self.request('/prompts/:promptId', body={"promptId": promptId}, _auth)  # type: ignore
