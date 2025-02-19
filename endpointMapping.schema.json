@@ -1,0 +1,372 @@
+{
+  "Prompts": [
+    {
+      "name": "publicPrompt",
+      "method": "get",
+      "path": "/prompts/:promptId",
+      "type": "Query"
+    },
+    {
+      "name": "publicPrompts",
+      "method": "list",
+      "path": "/prompts",
+      "type": "Query"
+    },
+    {
+      "name": "publicPromptRun",
+      "method": "post",
+      "path": "/prompts/run",
+      "type": "Mutation"
+    }
+  ],
+  "Targets": [
+    {
+      "name": "publicTargets",
+      "method": "list",
+      "path": "/targets",
+      "type": "Query"
+    },
+    {
+      "name": "publicTarget",
+      "method": "get",
+      "path": "/targets/:targetId",
+      "type": "Query"
+    }
+  ],
+  "reactions": [
+    {
+      "name": "publicReactions",
+      "method": "list",
+      "path": "/reactions",
+      "type": "Query"
+    }
+  ],
+  "metas": [
+    {
+      "name": "publicMeta",
+      "method": "get",
+      "path": "/metas/:metaId",
+      "type": "Query"
+    },
+    {
+      "name": "createMeta",
+      "method": "post",
+      "path": "metas/create",
+      "type": "Mutation"
+    },
+    {
+      "name": "publicMetas",
+      "method": "list",
+      "path": "/metas",
+      "type": "Query"
+    }
+  ],
+  "logs": [
+    {
+      "name": "createLog",
+      "method": "post",
+      "path": "/logs/create",
+      "type": "Mutation"
+    }
+  ],
+  "interests": [
+    {
+      "name": "createInterest",
+      "method": "post",
+      "path": "/interests/create",
+      "type": "Mutation"
+    }
+  ],
+  "info": [
+    {
+      "name": "info",
+      "method": "post",
+      "path": "/info",
+      "type": "Query"
+    }
+  ],
+  "files": [
+    {
+      "name": "upload",
+      "method": "post",
+      "path": "/files/upload",
+      "type": "Mutation"
+    }
+  ],
+  "contents": [
+    {
+      "name": "publicContent",
+      "method": "get",
+      "path": "/contents/:contentId",
+      "type": "Query"
+    },
+    {
+      "name": "publicContents",
+      "method": "list",
+      "path": "/contents",
+      "type": "Query"
+    }
+  ],
+  "collections": [
+    {
+      "name": "publicCollection",
+      "method": "get",
+      "path": "/collections/:collectionId",
+      "type": "Query"
+    },
+    {
+      "name": "publicCollections",
+      "method": "list",
+      "path": "/collections",
+      "type": "Query"
+    }
+  ],
+  "auth": [
+    {
+      "name": "registerTargets",
+      "method": "post",
+      "path": "/auth/register-targets",
+      "type": "Mutation"
+    },
+    {
+      "name": "isServiceConnected",
+      "method": "post",
+      "path": "/auth/is-service-connected",
+      "type": "Query"
+    },
+    {
+      "name": "loginWithToken",
+      "method": "post",
+      "path": "/auth/login-with-token",
+      "type": "Mutation"
+    },
+    {
+      "name": "connectWithService",
+      "method": "post",
+      "path": "/auth/connect-with-service",
+      "type": "Mutation"
+    },
+    {
+      "name": "createAccount",
+      "method": "post",
+      "path": "/auth/create-account",
+      "type": "Mutation"
+    }
+  ],
+  "accounts": [
+    {
+      "name": "me",
+      "method": "post",
+      "path": "/accounts/me",
+      "type": "Query"
+    },
+    {
+      "me": [
+        {
+          "name": "meCollections",
+          "method": "post",
+          "path": "/accounts/me/collections",
+          "type": "Query"
+        },
+        {
+          "name": "meCollectionsCreate",
+          "method": "post",
+          "path": "/accounts/me/collections/create",
+          "type": "Mutation"
+        },
+        {
+          "name": "meCollectionsDelete",
+          "method": "post",
+          "path": "/accounts/me/collections/delete",
+          "type": "Mutation"
+        },
+        {
+          "name": "meCollectionsUpdate",
+          "method": "post",
+          "path": "/accounts/me/collections/update",
+          "type": "Mutation"
+        },
+        {
+          "name": "meCollectionsRemoveContentFromCollection",
+          "method": "post",
+          "path": "/accounts/me/collections/remove-content-from-collection",
+          "type": "Mutation"
+        },
+        {
+          "name": "meCollectionsAddContentToCollection",
+          "method": "post",
+          "path": "/accounts/me/collections/add-content-to-collection",
+          "type": "Mutation"
+        },
+        {
+          "name": "meContents",
+          "method": "post",
+          "path": "/accounts/me/contents",
+          "type": "Query"
+        },
+        {
+          "name": "meContentsCreate",
+          "method": "post",
+          "path": "/accounts/me/contents/create",
+          "type": "Mutation"
+        },
+        {
+          "name": "meContentsDelete",
+          "method": "post",
+          "path": "/accounts/me/contents/delete",
+          "type": "Mutation"
+        },
+        {
+          "name": "meContentsUpdate",
+          "method": "post",
+          "path": "/accounts/me/contents/update",
+          "type": "Mutation"
+        },
+        {
+          "name": "meContent",
+          "method": "get",
+          "path": "/accounts/me/contents/:contentId",
+          "type": "Query"
+        },
+        {
+          "name": "meDevices",
+          "method": "post",
+          "path": "/accounts/me/devices",
+          "type": "Query"
+        },
+        {
+          "name": "meDevicesSave",
+          "method": "post",
+          "path": "/accounts/me/devices/save",
+          "type": "Mutation"
+        },
+        {
+          "name": "meDevicesUpdate",
+          "method": "post",
+          "path": "/accounts/me/devices/update",
+          "type": "Mutation"
+        },
+        {
+          "name": "meDevicesDelete",
+          "method": "post",
+          "path": "/accounts/me/devices/delete",
+          "type": "Mutation"
+        },
+        {
+          "name": "meDevice",
+          "method": "get",
+          "path": "/accounts/me/devices/:deviceId",
+          "type": "Query"
+        },
+        {
+          "name": "meInterests",
+          "method": "post",
+          "path": "/accounts/me/interests",
+          "type": "Query"
+        },
+        {
+          "name": "meInterest",
+          "method": "get",
+          "path": "/accounts/me/interests/:interestId",
+          "type": "Query"
+        },
+        {
+          "name": "meInterestsCreate",
+          "method": "post",
+          "path": "/accounts/me/interests/create",
+          "type": "Mutation"
+        },
+        {
+          "name": "meInterestsDelete",
+          "method": "post",
+          "path": "/accounts/me/interests/delete",
+          "type": "Mutation"
+        },
+        {
+          "name": "meLocations",
+          "method": "post",
+          "path": "/accounts/me/locations",
+          "type": "Query"
+        },
+        {
+          "name": "meLocationsRegister",
+          "method": "post",
+          "path": "/accounts/me/locations/register",
+          "type": "Mutation"
+        },
+        {
+          "name": "meLocationsDeleteAll",
+          "method": "post",
+          "path": "/accounts/me/locations/delete-all",
+          "type": "Mutation"
+        },
+        {
+          "name": "meLogsCreate",
+          "method": "post",
+          "path": "/accounts/me/logs/create",
+          "type": "Mutation"
+        },
+        {
+          "name": "meLogs",
+          "method": "post",
+          "path": "/accounts/me/logs",
+          "type": "Query"
+        },
+        {
+          "name": "mePrompts",
+          "method": "post",
+          "path": "/accounts/me/prompts",
+          "type": "Query"
+        },
+        {
+          "name": "mePrompt",
+          "method": "get",
+          "path": "/accounts/me/prompts/:promptId",
+          "type": "Query"
+        },
+        {
+          "name": "mePromptsCreate",
+          "method": "post",
+          "path": "/accounts/me/prompts/create",
+          "type": "Mutation"
+        },
+        {
+          "name": "mePromptsUpdate",
+          "method": "post",
+          "path": "/accounts/me/prompts/update",
+          "type": "Mutation"
+        },
+        {
+          "name": "mePromptsDelete",
+          "method": "post",
+          "path": "/accounts/me/prompts/delete",
+          "type": "Mutation"
+        },
+        {
+          "name": "meReactionsSave",
+          "method": "post",
+          "path": "/accounts/me/reactions/save",
+          "type": "Mutation"
+        },
+        {
+          "name": "meStates",
+          "method": "post",
+          "path": "/accounts/me/states",
+          "type": "Query"
+        },
+        {
+          "name": "meState",
+          "method": "get",
+          "path": "/accounts/me/states/:stateId",
+          "type": "Query"
+        },
+        {
+          "name": "meStatesSave",
+          "method": "post",
+          "path": "/accounts/me/states/save",
+          "type": "Mutation"
+        }
+      ]
+    }
+  ]
+}
