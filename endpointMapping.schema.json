@@ -163,262 +163,260 @@
               "name": "account",
               "method": "get",
               "path": "/accounts/me",
-              "type": "Query",
+              "type": "Query"
+            },
+            {
+              "method": "collections",
               "endpoints": [
                 {
-                  "method": "collections",
-                  "endpoints": [
-                    {
-                      "name": "collection",
-                      "method": "get",
-                      "path": "/accounts/me/collections/:collectionId",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "collections",
-                      "method": "list",
-                      "path": "/accounts/me/collections",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "createCollection",
-                      "method": "create",
-                      "path": "/accounts/me/collections/create",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "deleteCollection",
-                      "method": "delete",
-                      "path": "/accounts/me/collections/delete/:collectionId",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "updateCollection",
-                      "method": "update",
-                      "path": "/accounts/me/collections/update",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "removeContentFromCollection",
-                      "method": "removeContentFromCollection",
-                      "path": "/accounts/me/collections/remove-content-from-collection",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "addContentToCollection",
-                      "method": "addContentToCollection",
-                      "path": "/api/v1/accounts/me/collections/add-content-to-collection",
-                      "type": "Mutation"
-                    }
-                  ]
+                  "name": "collection",
+                  "method": "get",
+                  "path": "/accounts/me/collections/:collectionId",
+                  "type": "Query"
                 },
                 {
-                  "method": "contents",
-                  "endpoints": [
-                    {
-                      "name": "contents",
-                      "method": "list",
-                      "path": "/accounts/me/contents",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "createContent",
-                      "method": "create",
-                      "path": "/accounts/me/contents/create",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "deleteContent",
-                      "method": "delete",
-                      "path": "/accounts/me/contents/delete/:contentId",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "updateContent",
-                      "method": "update",
-                      "path": "/accounts/me/contents/update",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "content",
-                      "method": "get",
-                      "path": "/accounts/me/contents/:contentId",
-                      "type": "Query"
-                    }
-                  ]
+                  "name": "collections",
+                  "method": "list",
+                  "path": "/accounts/me/collections",
+                  "type": "Query"
                 },
                 {
-                  "method": "devices",
-                  "endpoints": [
-                    {
-                      "name": "devices",
-                      "method": "list",
-                      "path": "/accounts/me/devices",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "saveDevice",
-                      "method": "save",
-                      "path": "/accounts/me/devices/save",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "updateDevice",
-                      "method": "update",
-                      "path": "/accounts/me/devices/update",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "deleteDevice",
-                      "method": "delete",
-                      "path": "/accounts/me/devices/delete/:deviceId",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "device",
-                      "method": "get",
-                      "path": "/accounts/me/devices/:deviceId",
-                      "type": "Query"
-                    }
-                  ]
+                  "name": "createCollection",
+                  "method": "create",
+                  "path": "/accounts/me/collections/create",
+                  "type": "Mutation"
                 },
                 {
-                  "method": "interests",
-                  "endpoints": [
-                    {
-                      "name": "interests",
-                      "method": "list",
-                      "path": "/accounts/me/interests",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "interest",
-                      "method": "get",
-                      "path": "/accounts/me/interests/:interestId",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "createInterest",
-                      "method": "create",
-                      "path": "/accounts/me/interests/create",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "deleteInterest",
-                      "method": "delete",
-                      "path": "/accounts/me/interests/delete/:interestId",
-                      "type": "Mutation"
-                    }
-                  ]
+                  "name": "deleteCollection",
+                  "method": "delete",
+                  "path": "/accounts/me/collections/delete/:collectionId",
+                  "type": "Mutation"
                 },
                 {
-                  "method": "locations",
-                  "endpoints": [
-                    {
-                      "name": "locations",
-                      "method": "list",
-                      "path": "/accounts/me/locations",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "registerLocation",
-                      "method": "register",
-                      "path": "/accounts/me/locations/register",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "deleteAllLocations",
-                      "method": "deleteAll",
-                      "path": "/accounts/me/locations/delete-all",
-                      "type": "Mutation"
-                    }
-                  ]
+                  "name": "updateCollection",
+                  "method": "update",
+                  "path": "/accounts/me/collections/update",
+                  "type": "Mutation"
                 },
                 {
-                  "method": "logs",
-                  "endpoints": [
-                    {
-                      "name": "logs",
-                      "method": "list",
-                      "path": "/accounts/me/logs",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "createLog",
-                      "method": "create",
-                      "path": "/accounts/me/logs/create",
-                      "type": "Mutation"
-                    }
-                  ]
+                  "name": "removeContentFromCollection",
+                  "method": "removeContentFromCollection",
+                  "path": "/accounts/me/collections/remove-content-from-collection",
+                  "type": "Mutation"
                 },
                 {
-                  "method": "prompts",
-                  "endpoints": [
-                    {
-                      "name": "prompts",
-                      "method": "list",
-                      "path": "/accounts/me/prompts",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "prompt",
-                      "method": "get",
-                      "path": "/accounts/me/prompts/:promptId",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "createPrompt",
-                      "method": "create",
-                      "path": "/accounts/me/prompts/create",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "updatePrompt",
-                      "method": "update",
-                      "path": "/accounts/me/prompts/update",
-                      "type": "Mutation"
-                    },
-                    {
-                      "name": "deletePrompt",
-                      "method": "delete",
-                      "path": "/accounts/me/prompts/delete/:promptId",
-                      "type": "Mutation"
-                    }
-                  ]
+                  "name": "addContentToCollection",
+                  "method": "addContentToCollection",
+                  "path": "/api/v1/accounts/me/collections/add-content-to-collection",
+                  "type": "Mutation"
+                }
+              ]
+            },
+            {
+              "method": "contents",
+              "endpoints": [
+                {
+                  "name": "contents",
+                  "method": "list",
+                  "path": "/accounts/me/contents",
+                  "type": "Query"
                 },
                 {
-                  "method": "reactions",
-                  "endpoints": [
-                    {
-                      "name": "saveReaction",
-                      "method": "save",
-                      "path": "/accounts/me/reactions/save",
-                      "type": "Mutation"
-                    }
-                  ]
+                  "name": "createContent",
+                  "method": "create",
+                  "path": "/accounts/me/contents/create",
+                  "type": "Mutation"
                 },
                 {
-                  "method": "states",
-                  "endpoints": [
-                    {
-                      "name": "states",
-                      "method": "list",
-                      "path": "/accounts/me/states",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "state",
-                      "method": "get",
-                      "path": "/accounts/me/states/:stateId",
-                      "type": "Query"
-                    },
-                    {
-                      "name": "saveState",
-                      "method": "save",
-                      "path": "/accounts/me/states/save",
-                      "type": "Mutation"
-                    }
-                  ]
+                  "name": "deleteContent",
+                  "method": "delete",
+                  "path": "/accounts/me/contents/delete/:contentId",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "updateContent",
+                  "method": "update",
+                  "path": "/accounts/me/contents/update",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "content",
+                  "method": "get",
+                  "path": "/accounts/me/contents/:contentId",
+                  "type": "Query"
+                }
+              ]
+            },
+            {
+              "method": "devices",
+              "endpoints": [
+                {
+                  "name": "devices",
+                  "method": "list",
+                  "path": "/accounts/me/devices",
+                  "type": "Query"
+                },
+                {
+                  "name": "saveDevice",
+                  "method": "save",
+                  "path": "/accounts/me/devices/save",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "updateDevice",
+                  "method": "update",
+                  "path": "/accounts/me/devices/update",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "deleteDevice",
+                  "method": "delete",
+                  "path": "/accounts/me/devices/delete/:deviceId",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "device",
+                  "method": "get",
+                  "path": "/accounts/me/devices/:deviceId",
+                  "type": "Query"
+                }
+              ]
+            },
+            {
+              "method": "interests",
+              "endpoints": [
+                {
+                  "name": "interests",
+                  "method": "list",
+                  "path": "/accounts/me/interests",
+                  "type": "Query"
+                },
+                {
+                  "name": "interest",
+                  "method": "get",
+                  "path": "/accounts/me/interests/:interestId",
+                  "type": "Query"
+                },
+                {
+                  "name": "createInterest",
+                  "method": "create",
+                  "path": "/accounts/me/interests/create",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "deleteInterest",
+                  "method": "delete",
+                  "path": "/accounts/me/interests/delete/:interestId",
+                  "type": "Mutation"
+                }
+              ]
+            },
+            {
+              "method": "locations",
+              "endpoints": [
+                {
+                  "name": "locations",
+                  "method": "list",
+                  "path": "/accounts/me/locations",
+                  "type": "Query"
+                },
+                {
+                  "name": "registerLocation",
+                  "method": "register",
+                  "path": "/accounts/me/locations/register",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "deleteAllLocations",
+                  "method": "deleteAll",
+                  "path": "/accounts/me/locations/delete-all",
+                  "type": "Mutation"
+                }
+              ]
+            },
+            {
+              "method": "logs",
+              "endpoints": [
+                {
+                  "name": "logs",
+                  "method": "list",
+                  "path": "/accounts/me/logs",
+                  "type": "Query"
+                },
+                {
+                  "name": "createLog",
+                  "method": "create",
+                  "path": "/accounts/me/logs/create",
+                  "type": "Mutation"
+                }
+              ]
+            },
+            {
+              "method": "prompts",
+              "endpoints": [
+                {
+                  "name": "prompts",
+                  "method": "list",
+                  "path": "/accounts/me/prompts",
+                  "type": "Query"
+                },
+                {
+                  "name": "prompt",
+                  "method": "get",
+                  "path": "/accounts/me/prompts/:promptId",
+                  "type": "Query"
+                },
+                {
+                  "name": "createPrompt",
+                  "method": "create",
+                  "path": "/accounts/me/prompts/create",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "updatePrompt",
+                  "method": "update",
+                  "path": "/accounts/me/prompts/update",
+                  "type": "Mutation"
+                },
+                {
+                  "name": "deletePrompt",
+                  "method": "delete",
+                  "path": "/accounts/me/prompts/delete/:promptId",
+                  "type": "Mutation"
+                }
+              ]
+            },
+            {
+              "method": "reactions",
+              "endpoints": [
+                {
+                  "name": "saveReaction",
+                  "method": "save",
+                  "path": "/accounts/me/reactions/save",
+                  "type": "Mutation"
+                }
+              ]
+            },
+            {
+              "method": "states",
+              "endpoints": [
+                {
+                  "name": "states",
+                  "method": "list",
+                  "path": "/accounts/me/states",
+                  "type": "Query"
+                },
+                {
+                  "name": "state",
+                  "method": "get",
+                  "path": "/accounts/me/states/:stateId",
+                  "type": "Query"
+                },
+                {
+                  "name": "saveState",
+                  "method": "save",
+                  "path": "/accounts/me/states/save",
+                  "type": "Mutation"
                 }
               ]
             }
