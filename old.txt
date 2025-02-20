@@ -35,6 +35,8 @@
   "path": "/accounts/me/collections/add-content-to-collection",
   "type": "Mutation"
 },
+
+
 {
   "name": "meContents",
   "method": "post",
@@ -65,6 +67,8 @@
   "path": "/accounts/me/contents/:contentId",
   "type": "Query"
 },
+
+
 {
   "name": "meDevices",
   "method": "post",
@@ -95,6 +99,9 @@
   "path": "/accounts/me/devices/:deviceId",
   "type": "Query"
 },
+
+
+
 {
   "name": "meInterests",
   "method": "post",
@@ -119,6 +126,8 @@
   "path": "/accounts/me/interests/delete",
   "type": "Mutation"
 },
+
+
 {
   "name": "meLocations",
   "method": "post",
@@ -143,12 +152,16 @@
   "path": "/accounts/me/logs/create",
   "type": "Mutation"
 },
+
+
 {
   "name": "meLogs",
   "method": "post",
   "path": "/accounts/me/logs",
   "type": "Query"
 },
+
+
 {
   "name": "mePrompts",
   "method": "post",
@@ -179,12 +192,15 @@
   "path": "/accounts/me/prompts/delete",
   "type": "Mutation"
 },
+
 {
   "name": "meReactionsSave",
   "method": "post",
   "path": "/accounts/me/reactions/save",
   "type": "Mutation"
 },
+
+
 {
   "name": "meStates",
   "method": "post",
