@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SCHEMA_FILE = os.path.join(BASE_DIR, "graphql.schema.json")
 OUTPUT_FILE = os.path.join(BASE_DIR, "AIRunner/SuperNevaAPI.py")
-ENDPOINT_MAPPING_FILE = os.path.join(BASE_DIR, "endpointMapping.schema.json")
+ENDPOINT_MAPPING_FILE = os.path.join(BASE_DIR, "endpoints.json")
 
 print(OUTPUT_FILE)
 print(SCHEMA_FILE)
