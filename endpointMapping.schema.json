@@ -160,13 +160,14 @@
           "method": "me",
           "endpoints": [
             {
-              "name": "me",
+              "name": "account",
               "method": "get",
               "path": "/accounts/me",
               "type": "Query",
               "endpoints": [
                 {
-                  "collection": [
+                  "method": "collections",
+                  "endpoints": [
                     {
                       "name": "collections",
                       "method": "list",
@@ -174,15 +175,15 @@
                       "type": "Query"
                     },
                     {
-                      "name": "collectionsCreate",
+                      "name": "createCollection",
                       "method": "create",
                       "path": "/accounts/me/collections/create",
                       "type": "Mutation"
                     },
                     {
-                      "name": "collectionsDelete",
+                      "name": "deleteCollection",
                       "method": "delete",
-                      "path": "/accounts/me/collections/delete",
+                      "path": "/accounts/me/collections/delete/:collectionId",
                       "type": "Mutation"
                     },
                     {
@@ -360,6 +361,36 @@
                       "type": "Mutation"
                     }
                   ],
+                  "reaction": [
+                    {
+                      "name": "reactionsSave",
+                      "method": "save",
+                      "path": "/accounts/me/reactions/save",
+                      "type": "Mutation"
+                    }
+                  ],
+                  "state": [
+                    {
+                      "name": "states",
+                      "method": "list",
+                      "path": "/accounts/me/states",
+                      "type": "Query"
+                    },
+                    {
+                      "name": "getState",
+                      "method": "get",
+                      "path": "/accounts/me/states/:stateId",
+                      "type": "Query"
+                    },
+                    {
+                      "name": "statesSave",
+                      "method": "save",
+                      "path": "/accounts/me/states/save",
+                      "type": "Mutation"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
