@@ -13,7 +13,7 @@
       "type": "Query"
     },
     {
-      "name": "publicPromptRun",
+      "name": "promptRun",
       "method": "run",
       "path": "/prompts/run",
       "type": "Mutation"
@@ -172,7 +172,8 @@
                   "name": "collection",
                   "method": "get",
                   "path": "/accounts/me/collections/:collectionId",
-                  "type": "Query"
+                  "type": "Query",
+                  "body": false
                 },
                 {
                   "name": "collections",
@@ -410,7 +411,9 @@
                   "name": "state",
                   "method": "get",
                   "path": "/accounts/me/states/:stateId",
-                  "type": "Query"
+                  "type": "Query",
+                  "ignoreArgs": ["key"],
+                  "body": false
                 },
                 {
                   "name": "saveState",

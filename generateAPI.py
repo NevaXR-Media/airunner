@@ -307,8 +307,6 @@
 #     print(f"Type hints generated in {OUTPUT_FILE}")
 
 
-
-
 # ---------------------------------------
 
 # import json
@@ -349,7 +347,7 @@
 #     """
 #     GraphQL şemasını ve endpointMapping.json verilerini kullanarak,
 #     dinamik ve özyinelemeli (recursive) endpoint sınıflarını içeren tip ipuçları üreten kodu oluşturur.
-    
+
 #     Alt endpoint’ler de JSON içindeki yapıya göre sınıf olarak iç içe (nested) eklenir.
 #     """
 #     output = [
@@ -359,18 +357,18 @@
 #         "from SuperNeva import SNRequest, Auth",
 #         "",  # spacer
 #     ]
-    
+
 #     # GraphQL tiplerini şemadan alıyoruz.
 #     types = schema.get("data", {}).get("__schema", {}).get("types", [])
 #     standart_args = "_auth: Optional[Auth] = None"
 #     auth_arg = "_auth"
-    
+
 #     # SuperNevaTypes'tan alınacak custom tipleri tutmak için liste
 #     import_statements: List[str] = []
-    
+
 #     # Endpoint mapping dosyasını yüklüyoruz.
 #     EndpointMapping = load_schema(ENDPOINT_MAPPING_FILE)
-    
+
 #     def get_arg_type(arg: Dict[str, Any]) -> str:
 #         """GraphQL argümanının Python tipini döndürür."""
 #         type_info = arg["type"]
@@ -397,7 +395,7 @@
 #                 if t not in import_statements:
 #                     import_statements.append(t)
 #                 return f'Optional["{t}"]'
-    
+
 #     def process_method(method: Dict[str, Any], indent: str = "    ") -> None:
 #         """
 #         Belirtilen method (endpoint) için fonksiyon imzası oluşturur.
@@ -425,13 +423,13 @@
 #                 response_type = field.get("type", {}).get("name", "Any")
 #         if response_type not in import_statements:
 #             import_statements.append(response_type)
-    
+
 #         args: Dict[str, str] = {}
 #         for arg in field_args:
 #             args[arg["name"]] = get_arg_type(arg)
 #         args_str = ", ".join(f"{k}: {v}" for k, v in args.items())
 #         args_keys = ", ".join(f'"{k}": {k}' for k in args.keys())
-    
+
 #         # Fonksiyon ismini URL'den türetiyoruz.
 #         path = method.get("path", "")
 #         tokens = path.strip("/").split("/")
@@ -449,7 +447,7 @@
 #                 func_name = "list"
 #             else:
 #                 func_name = tokens[-1].lower().replace("-", "_")
-    
+
 #         if args_str:
 #             signature = f"{indent}def {func_name}(self, {args_str}, {standart_args}) -> {response_type}:"
 #         else:
@@ -460,7 +458,7 @@
 #             f'{indent}    return self.request("{path_value}", body={{{args_keys}}}, {auth_arg})'
 #         )
 #         output.append("")
-    
+
 #     def process_item(item: Any, indent: str = "    ") -> None:
 #         """
 #         Verilen item; endpoint method mu yoksa alt endpoint grubunu (nested) barındıran sözlük mü
@@ -488,18 +486,18 @@
 #                         process_items(value, indent + "    ")
 #                         output.append("")
 #         # Eğer item dict değilse, atlıyoruz.
-    
+
 #     def process_items(items: List[Any], indent: str = "    ") -> None:
 #         """Liste içindeki her bir item için process_item çağırır."""
 #         for item in items:
 #             process_item(item, indent)
-    
+
 #     # Her top-level mapping için; örn. "Prompts", "Targets", "Accounts" vs.
 #     for mapping_name, mapping_list in EndpointMapping.items():
 #         output.append(f"class {mapping_name}(SNRequest):")
 #         process_items(mapping_list, indent="    ")
 #         output.append("")
-    
+
 #     # SuperNevaTypes'tan alınacak tiplerin tek bir import satırında toplanması.
 #     excluded = {"str", "int", "bool", "date", "Any", "None", ""}
 #     unique_imports = sorted({imp for imp in import_statements if imp and imp not in excluded})
@@ -509,7 +507,7 @@
 #         )
 #         insertion_index = 4
 #         output.insert(insertion_index, multiline_import)
-    
+
 #     return "\n".join(output)
 
 
@@ -565,7 +563,7 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
     dinamik ve özyinelemeli endpoint sınıflarını üreten kodu oluşturur.
 
     – Her top-level mapping (örn. Prompts, Targets, Accounts vs.) için bir sınıf üretilir.
-    – Nested endpointler, üst token’lar birleştirilerek "flattened" yeni sınıf isimleri oluşturur 
+    – Nested endpointler, üst token’lar birleştirilerek "flattened" yeni sınıf isimleri oluşturur
       (örn. AccountsMeAccountCollections).
     – Leaf endpointler, ilgili sınıfa metod olarak eklenir.
     – Her sınıfta tek seferlik __init__ metodu (*args ve **kwargs için tip ipucu olarak Any kullanılmıştır) yer alır.
@@ -600,7 +598,11 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
         """
         for item in endpoints:
             if isinstance(item, dict):
-                if "endpoints" in item and isinstance(item["endpoints"], list) and item["endpoints"]:
+                if (
+                    "endpoints" in item
+                    and isinstance(item["endpoints"], list)
+                    and item["endpoints"]
+                ):
                     token = item.get("name") or item.get("method")
                     if token:
                         token = token[0].upper() + token[1:]
@@ -629,24 +631,32 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
     def write_class_header(class_name: str, indent: str) -> None:
         """Verilen sınıf adı için __init__ metodunu da içeren sınıf başlığını yazar."""
         output.append(f"{indent}class {class_name}(SNRequest):")
-        output.append(f"{indent}    def __init__(self, *args: Any, **kwargs: Any) -> None:")
+        output.append(
+            f"{indent}    def __init__(self, *args: Any, **kwargs: Any) -> None:"
+        )
         output.append(f"{indent}        super().__init__(*args, **kwargs)")
-    
+
     def process_method(method: Dict[str, Any], indent: str = "    ") -> None:
         """
         Belirtilen endpoint methodu için fonksiyon imzası üretir.
         GraphQL şemadan argüman tipleri ve dönüş tipi alınır.
         """
-        graphql_type = next((t for t in types if t["name"] == method.get("type", "")), None)
+        graphql_type = next(
+            (t for t in types if t["name"] == method.get("type", "")), None
+        )
         if graphql_type is None:
-            print(f"Warning: GraphQL type '{method.get('type')}' not found for endpoint '{method.get('name')}'. Using default stub.")
+            print(
+                f"Warning: GraphQL type '{method.get('type')}' not found for endpoint '{method.get('name')}'. Using default stub."
+            )
             field_args = []
             response_type = "Any"
         else:
             fields = graphql_type.get("fields", [])
             field = next((f for f in fields if f["name"] == method.get("name")), None)
             if field is None:
-                print(f"Warning: No field found for method '{method.get('name')}' in type '{graphql_type.get('name')}'. Using default stub.")
+                print(
+                    f"Warning: No field found for method '{method.get('name')}' in type '{graphql_type.get('name')}'. Using default stub."
+                )
                 field_args = []
                 response_type = "Any"
             else:
@@ -674,6 +684,7 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
 
     # Şimdi flat_classes sözlüğündeki her sınıfı üretiyoruz.
     for class_name in sorted(flat_classes.keys()):
+        class_name = class_name
         write_class_header(class_name, "")
         for method in flat_classes[class_name]:
             process_method(method, indent="    ")
@@ -681,14 +692,18 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
 
     # SuperNevaTypes'tan alınacak tipleri tek import satırında toplayalım.
     excluded = {"str", "int", "bool", "date", "Any", "None", ""}
-    unique_imports = sorted({imp for imp in import_statements if imp and imp not in excluded})
+    unique_imports = sorted(
+        {imp for imp in import_statements if imp and imp not in excluded}
+    )
     if unique_imports:
         multiline_import = (
-            "from SuperNevaTypes import (\n    " + ",\n    ".join(unique_imports) + "\n)"
+            "from SuperNevaTypes import (\n    "
+            + ",\n    ".join(unique_imports)
+            + "\n)"
         )
         insertion_index = 4  # SuperNeva importundan sonra ekle
         output.insert(insertion_index, multiline_import)
-    
+
     return "\n".join(output)
 
 
