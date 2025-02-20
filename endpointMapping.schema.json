@@ -204,8 +204,11 @@
                       "path": "/accounts/me/collections/add-content-to-collection",
                       "type": "Mutation"
                     }
-                  ],
-                  "content": [
+                  ]
+                },
+                {
+                  "method": "contents",
+                  "endpoints": [
                     {
                       "name": "contents",
                       "method": "list",
@@ -236,8 +239,11 @@
                       "path": "/accounts/me/contents/:contentId",
                       "type": "Query"
                     }
-                  ],
-                  "device": [
+                  ]
+                },
+                {
+                  "method": "devices",
+                  "endpoints": [
                     {
                       "name": "devices",
                       "method": "list",
@@ -268,8 +274,11 @@
                       "path": "/accounts/me/devices/:deviceId",
                       "type": "Query"
                     }
-                  ],
-                  "interest": [
+                  ]
+                },
+                {
+                  "method": "interests",
+                  "endpoints": [
                     {
                       "name": "interests",
                       "method": "list",
@@ -294,8 +303,11 @@
                       "path": "/accounts/me/interests/delete",
                       "type": "Mutation"
                     }
-                  ],
-                  "location": [
+                  ]
+                },
+                {
+                  "method": "locations",
+                  "endpoints": [
                     {
                       "name": "locations",
                       "method": "list",
@@ -320,16 +332,22 @@
                       "path": "/accounts/me/locations/create",
                       "type": "Mutation"
                     }
-                  ],
-                  "log": [
+                  ]
+                },
+                {
+                  "method": "logs",
+                  "endpoints": [
                     {
                       "name": "logs",
                       "method": "list",
                       "path": "/accounts/me/logs",
                       "type": "Query"
                     }
-                  ],
-                  "prompt": [
+                  ]
+                },
+                {
+                  "method": "prompts",
+                  "endpoints": [
                     {
                       "name": "prompts",
                       "method": "list",
@@ -360,16 +378,22 @@
                       "path": "/accounts/me/prompts/delete",
                       "type": "Mutation"
                     }
-                  ],
-                  "reaction": [
+                  ]
+                },
+                {
+                  "method": "reactions",
+                  "endpoints": [
                     {
                       "name": "reactionsSave",
                       "method": "save",
                       "path": "/accounts/me/reactions/save",
                       "type": "Mutation"
                     }
-                  ],
-                  "state": [
+                  ]
+                },
+                {
+                  "method": "states",
+                  "endpoints": [
                     {
                       "name": "states",
                       "method": "list",

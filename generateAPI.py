@@ -585,6 +585,9 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
     # SuperNevaTypes'tan alınacak custom tipleri tutmak için liste
     import_statements: List[str] = []
     
+    # SuperNevaTypes'tan alınacak custom tipleri tutmak için liste
+    classes: List[str] = []
+    
     # Endpoint mapping dosyasını yüklüyoruz.
     EndpointMapping = load_schema(ENDPOINT_MAPPING_FILE)
     
@@ -722,9 +725,16 @@ def generate_pyi(schema: Dict[str, Any]) -> str:
     
     # Her top-level mapping için; örn. "Prompts", "Targets", "Accounts" vs.
     for mapping_name, mapping_list in EndpointMapping.items():
-        write_class_header(mapping_name, "")
-        process_items(mapping_list, indent="    ")
-        output.append("")
+        # TODO: handle nested endpoints (Get Parent endpoint (key), get current endpoint (key=="method") etc.) > Account + "Me".titlecase() + ...
+          
+        # TODO: generate classes (Prompts, Targets, Accounts etc.) > generate classes' method's (get,list etc.)
+        
+        # TODO: generate parent class's __init__ method
+      
+        
+        # write_class_header(mapping_name, "")
+        # process_items(mapping_list, indent="    ")
+        # output.append("")
     
     # SuperNevaTypes'tan alınacak tipleri tek import satırında toplayalım.
     excluded = {"str", "int", "bool", "date", "Any", "None", ""}
