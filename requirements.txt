@@ -3,3 +3,4 @@ aws-sqs-consumer
 typing
 setuptools 
 requests
+git+https://github.com/NevaXR-Media/superneva-python-sdk.git
