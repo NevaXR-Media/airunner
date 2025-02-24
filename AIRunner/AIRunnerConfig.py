@@ -1,23 +1,18 @@
 from AIRunner.SQSConfig import SQSConfig
+from SuperNeva.SuperNeva import SNConfig
 
 
 class AIRunnerConfig:
     name: str
-    public: str
-    base_url: str
-    consumer_sqs_config: SQSConfig
-    superneva_sqs_config: SQSConfig
+    sqs_config: SQSConfig
+    superneva: SNConfig
 
     def __init__(
         self,
         name: str,
-        public: str,
-        base_url: str,
-        consumer_sqs_config: SQSConfig,
-        superneva_sqs_config: SQSConfig,
+        sqs_config: SQSConfig,
+        superneva: SNConfig,
     ) -> None:
         self.name = name
-        self.public = public
-        self.base_url = base_url
-        self.consumer_sqs_config = consumer_sqs_config
-        self.superneva_sqs_config = superneva_sqs_config
+        self.sqs_config = sqs_config
+        self.superneva = superneva

@@ -2,7 +2,7 @@ from enum import Enum
 from typing import List, Optional, TypedDict, Dict, Any, Union, Literal
 from datetime import date
 
-from AIRunner.SuperNevaTypes import MLString, MLFile, File
+from SuperNeva.Types import MLString, MLFile, File
 
 
 class ContentStatus(str, Enum):

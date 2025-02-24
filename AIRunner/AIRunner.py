@@ -7,9 +7,10 @@ from AIRunner.AIRunnerConfig import AIRunnerConfig
 from AIRunner.AIRunnerLogger import AIRunnerLogger
 from AIRunner.AIRunnerGenericStore import AIRunnerGenericStore
 from AIRunner.Types import AIRunnerPipelineResult
-from SuperNeva import SuperNeva
+from SuperNeva.SuperNeva import SuperNeva, Auth
 from SuperNeva.Types import LogInput, LogPayloadInput, LogTopic, LogType
 from AIRunner.Types import PromptMessage
+
 
 TStore = TypeVar("TStore")
 
@@ -40,12 +41,12 @@ class AIRunner(Generic[TStore]):
         self.store = AIRunnerGenericStore[TStore]()
         self.pipes = pipes or []
         self.logger = logger or AIRunnerLogger(name="AIRunner", colorize=False)
-        self.context = SuperNeva(config)
+        self.context = SuperNeva(config=config.superneva)
         self.sqs = boto3.client(  # type: ignore
             "sqs",
-            region_name=config.consumer_sqs_config.region,
-            aws_access_key_id=config.consumer_sqs_config.key,
-            aws_secret_access_key=config.consumer_sqs_config.secret,
+            region_name=config.sqs_config.region,
+            aws_access_key_id=config.sqs_config.key,
+            aws_secret_access_key=config.sqs_config.secret,
         )
         self.logger.info("Runner initialized.")
         print(" ")
@@ -57,13 +58,14 @@ class AIRunner(Generic[TStore]):
         self.logger.info("Run successfully finished.")
         prompt = message.get("prompt")
         content = message.get("content")
-
         if self.context.isResponseQueueReady:
             if prompt and content:
+                prompt_id = prompt.get("_id", "default")
+                content_id = content.get("_id", "default")
                 self.context.queue.push(  # type: ignore
                     body=json.dumps(body),
-                    groupId=prompt.get("_id") or "default",
-                    deduplicationId=content.get("_id") or "default",
+                    groupId=str(prompt_id),
+                    deduplicationId=str(content_id),
                 )
 
         if self.onSuccessHandler:
@@ -121,6 +123,7 @@ class AIRunner(Generic[TStore]):
         if self.context.isSuperNevaReady:
             prompt = payload.get("prompt")
             content = payload.get("content")
+            account_id = payload.get("accountId")
 
             if prompt and content:
                 log_data = LogInput(
@@ -142,7 +145,10 @@ class AIRunner(Generic[TStore]):
                         duration=duration,
                     ),
                 )
-                self.context.logs.create(log_data)
+
+                self.context.logs.create(
+                    data=log_data, _auth=Auth(account_id=account_id)
+                )
             else:
                 self.logger.error("Invalid message.")
 
@@ -253,14 +259,14 @@ class AIRunner(Generic[TStore]):
         self.logger.info("Starting consumer.")
 
         consumer = Consumer(
-            queue_url=self.config.consumer_sqs_config.url,
+            queue_url=self.config.sqs_config.url,
             sqs_client=self.sqs,  # type: ignore
-            region=self.config.consumer_sqs_config.region,
-            polling_wait_time_ms=self.config.consumer_sqs_config.polling_wait_time_ms,
-            batch_size=self.config.consumer_sqs_config.batch_size,
+            region=self.config.sqs_config.region,
+            polling_wait_time_ms=self.config.sqs_config.polling_wait_time_ms,
+            batch_size=self.config.sqs_config.batch_size,
         )
 
-        if self.config.consumer_sqs_config.url:
+        if self.config.sqs_config.url:
             self.logger.info("Consumer started.")
             consumer.handle_message = self.handle_message
             consumer.start()  # type: ignore
