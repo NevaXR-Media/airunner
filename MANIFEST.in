@@ -1,4 +1,1 @@
 recursive-include AIRunner *.py
-recursive-include AIRunner/SuperNeva *.py
-recursive-include AIRunner/Types *.py
-recursive-include air *.py
