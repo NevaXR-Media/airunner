@@ -1,12 +1,12 @@
 import json
 import timeit
 from typing import Any, Dict, Generic, List, TypeVar, Optional
+from SuperNeva.SuperNeva import SuperNeva
 import boto3  # type: ignore
 from aws_sqs_consumer import Message  # type: ignore
 from AIRunner.AIRunnerConfig import AIRunnerConfig
 from AIRunner.AIRunnerLogger import AIRunnerLogger
 from AIRunner.AIRunnerGenericStore import AIRunnerGenericStore
-from AIRunner.SuperNeva import SuperNeva
 from AIRunner.Types import PromptMessage
 
 
@@ -40,7 +40,7 @@ class AIRunnerDebug(Generic[TStore]):
         self.store = AIRunnerGenericStore[TStore]()
         self.pipes = pipes or []
         self.logger = logger or AIRunnerLogger(name="AIRunner", colorize=False)
-        self.context = SuperNeva(config)
+        self.context = SuperNeva(config.superneva)
         self.sqs = None
 
         self.logger.info("Runner initialized.")
@@ -144,7 +144,7 @@ class AIRunnerDebug(Generic[TStore]):
     def start_consumer(self) -> None:
         self.logger.info("Starting consumer.")
 
-        if self.config.consumer_sqs_config.url:
+        if self.config.sqs_config.url:
             self.logger.info("Consumer started.")
         else:
             self.logger.error("Consumer not started. No SQS URL found.")

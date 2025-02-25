@@ -108,7 +108,7 @@ class AIRunner(Generic[TStore]):
                         duration=duration,
                     ),
                 )
-                self.context.logs.create(log_data)
+                self.context.logs.create(data=[log_data])
             else:
                 self.logger.error("Invalid message.")
 
@@ -147,7 +147,7 @@ class AIRunner(Generic[TStore]):
                 )
 
                 self.context.logs.create(
-                    data=log_data, _auth=Auth(account_id=account_id)
+                    data=[log_data], _auth=Auth(account_id=account_id)
                 )
             else:
                 self.logger.error("Invalid message.")
