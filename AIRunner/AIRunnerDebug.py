@@ -40,7 +40,7 @@ class AIRunnerDebug(Generic[TStore]):
         self.store = AIRunnerGenericStore[TStore]()
         self.pipes = pipes or []
         self.logger = logger or AIRunnerLogger(name="AIRunner", colorize=False)
-        self.context = SuperNeva(config.superneva)
+        self.context = SuperNeva(config=config["superneva"])
         self.sqs = None
 
         self.logger.info("Runner initialized.")
@@ -144,7 +144,7 @@ class AIRunnerDebug(Generic[TStore]):
     def start_consumer(self) -> None:
         self.logger.info("Starting consumer.")
 
-        if self.config.sqs_config.url:
+        if self.config["sqs_config"]["url"]:
             self.logger.info("Consumer started.")
         else:
             self.logger.error("Consumer not started. No SQS URL found.")

@@ -7,7 +7,8 @@ from AIRunner.AIRunnerConfig import AIRunnerConfig
 from AIRunner.AIRunnerLogger import AIRunnerLogger
 from AIRunner.AIRunnerGenericStore import AIRunnerGenericStore
 from AIRunner.Types import AIRunnerPipelineResult
-from SuperNeva.SuperNeva import SuperNeva, Auth
+from SuperNeva.SuperNeva import SuperNeva
+from SuperNeva.SNRequest import Auth
 from SuperNeva.Types import LogInput, LogPayloadInput, LogTopic, LogType
 from AIRunner.Types import PromptMessage
 
@@ -16,14 +17,14 @@ TStore = TypeVar("TStore")
 
 
 class AIRunner(Generic[TStore]):
-    config: AIRunnerConfig
     pipes: List[Any]
 
+    config: "AIRunnerConfig"
     context: SuperNeva
 
     def __init__(
         self,
-        config: AIRunnerConfig,
+        config: "AIRunnerConfig",
         pipes: List[Any] = [],
         logger: Optional[AIRunnerLogger] = None,
         onErrorHandler: Optional[
@@ -41,12 +42,12 @@ class AIRunner(Generic[TStore]):
         self.store = AIRunnerGenericStore[TStore]()
         self.pipes = pipes or []
         self.logger = logger or AIRunnerLogger(name="AIRunner", colorize=False)
-        self.context = SuperNeva(config=config.superneva)
+        self.context = SuperNeva(config=config["superneva"])
         self.sqs = boto3.client(  # type: ignore
             "sqs",
-            region_name=config.sqs_config.region,
-            aws_access_key_id=config.sqs_config.key,
-            aws_secret_access_key=config.sqs_config.secret,
+            region_name=config["sqs_config"]["region"],
+            aws_access_key_id=config["sqs_config"]["key"],
+            aws_secret_access_key=config["sqs_config"]["secret"],
         )
         self.logger.info("Runner initialized.")
         print(" ")
@@ -259,14 +260,14 @@ class AIRunner(Generic[TStore]):
         self.logger.info("Starting consumer.")
 
         consumer = Consumer(
-            queue_url=self.config.sqs_config.url,
+            queue_url=self.config["sqs_config"]["url"],
             sqs_client=self.sqs,  # type: ignore
-            region=self.config.sqs_config.region,
-            polling_wait_time_ms=self.config.sqs_config.polling_wait_time_ms,
-            batch_size=self.config.sqs_config.batch_size,
+            region=self.config["sqs_config"]["region"],
+            polling_wait_time_ms=self.config["sqs_config"]["polling_wait_time_ms"],
+            batch_size=self.config["sqs_config"]["batch_size"],
         )
 
-        if self.config.sqs_config.url:
+        if self.config["sqs_config"]["url"]:
             self.logger.info("Consumer started.")
             consumer.handle_message = self.handle_message
             consumer.start()  # type: ignore

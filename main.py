@@ -1,11 +1,10 @@
 from typing import Dict
 from AIRunner.AIRunnerPipeline import AIRunnerPipeline
-from AIRunner.SQSConfig import SQSConfig
 from AIRunner.AIRunner import AIRunner
 
-from AIRunner.AIRunnerConfig import AIRunnerConfig
 from AIRunner.AIRunnerLogger import AIRunnerLogger
 from AIRunner.Types import AIRunnerPipelineResult, PromptMessage
+from AIRunner.AIRunnerConfig import AIRunnerConfig
 
 
 class MyStore:
@@ -28,23 +27,27 @@ def TestRunner():
     logger = AIRunnerLogger(name="AIRunner:Test", colorize=True, level="DEBUG")
 
     # Setup config
-    config = AIRunnerConfig(
-        name="Test",
-        public="?",
-        base_url="http://localhost:3000/api/v1",
-        consumer_sqs_config=SQSConfig(
-            url="",
-            key="",
-            secret="",
-            region="",
-        ),
-        superneva_sqs_config=SQSConfig(
-            url="",
-            key="",
-            secret="",
-            region="",
-        ),
-    )
+    config: AIRunnerConfig = {
+        "name": "Test",
+        "sqs_config": {
+            "url": "",
+            "key": "",
+            "secret": "",
+            "region": "",
+            "batch_size": 1,
+            "polling_wait_time_ms": 5000,
+        },
+        "superneva": {
+            "public": "?",
+            "base_url": "http://localhost:3000/api/v1",
+            "sqs_config": {
+                "url": "",
+                "key": "",
+                "secret": "",
+                "region": "",
+            },
+        },
+    }
 
     # Setup pipes
     pipes: list[TestPipeline] = [TestPipeline(name="Test")]
