@@ -29,6 +29,12 @@ class ContentBlockAppearance(str, Enum):
     VERTICAL = "vertical"
 
 
+class ContentModerationStatus(str, Enum):
+    FLAGGED = "flagged"
+    CLEARED = "cleared"
+    PENDING = "pending"
+
+
 class ContentAction(TypedDict, total=False):
     _id: Optional[str]
     key: Optional[str]
@@ -159,6 +165,17 @@ class ContentCredit(TypedDict, total=False):
     primary: Optional[bool]
 
 
+class ContentModerationCategory(TypedDict, total=False):
+    key: Optional[str]
+    flagged: Optional[bool]
+    score: Optional[float]
+
+
+class ContentModeration(TypedDict, total=False):
+    status: Optional[ContentModerationStatus]
+    report: Optional[List[ContentModerationCategory]]
+
+
 class Content(TypedDict, total=False):
     _id: Optional[str]
     status: Optional["ContentStatus"]
@@ -175,6 +192,8 @@ class Content(TypedDict, total=False):
     callbackTriggerAttempts: Optional[int]
     promptParams: Optional[Dict[str, Any]]
     promptResults: Optional[Dict[str, Any]]
+    promptGeneratedParams: Optional[Dict[str, Any]]
+    moderation: Optional[List["ContentModeration"]]
     targets: Optional[List[str]]
     collections: Optional[List[str]]
     tags: Optional[List[str]]
