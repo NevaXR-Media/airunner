@@ -344,12 +344,17 @@ class Content(TypedDict, total=False):
 
 
 class PromptMessage(TypedDict, total=False):
+    # SQS Message fields
     _id: str
     prompt: Prompt
     content: Content
     params: Any
     results: Any
     accountId: str
+
+    # AIRunner specific fields
+    duration: Optional[float]
+    message: Optional[str]
 
 
 class AIRunnerPipelineResult(TypedDict, total=False):
