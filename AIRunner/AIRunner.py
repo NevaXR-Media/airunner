@@ -13,7 +13,6 @@ from SuperNeva.SNRequest import Auth
 from SuperNeva.Types import LogInput, LogPayloadInput, LogTopic, LogType
 from AIRunner.Types import PromptMessage
 from SuperNeva.SNSQS import SNSQSConfig
-from SuperNeva.SNConfig import SNConfig
 import jwt
 
 
@@ -120,8 +119,6 @@ class AIRunner(Generic[TStore]):
         if not prompt:
             self.logger.error("Invalid prompt.")
             return
-
-        
 
         if context.isSuperNevaReady:
             if prompt and content:
@@ -323,24 +320,25 @@ class AIRunner(Generic[TStore]):
         if not body.get("prompt"):
             self.logger.error("Invalid message prompt.")
             return
-        
-        sqs_message_secret = os.getenv("SQS_MESSAGE_SECRET")  # RESPONSE QUEUE TOKEN
+
+        sqs_message_secret = os.getenv("SQS_MESSAGE_SECRET", "")  # RESPONSE QUEUE TOKEN
 
         response_queue_token = body.get("responseQueueToken")
-        decoded_payload = jwt.decode(response_queue_token, self.sqs_message_secret, algorithms=["HS256"])
 
-        sqs_config :SNSQSConfig = {
+        decoded_payload = jwt.decode(
+            response_queue_token, sqs_message_secret, algorithms=["HS256"]
+        )
+
+        sqs_config: SNSQSConfig = {
             "url": decoded_payload["responseSqsQueueUrl"],
             "key": decoded_payload["responseSqsKey"],
             "secret": decoded_payload["responseSqsSecret"],
             "region": decoded_payload["responseSqsRegion"],
-
         }
-        body["_env"]: SNConfig = {
-            "sqs_config": sqs_config,   
+        body["_env"] = {
+            "sqs_config": sqs_config,
             "base_url": decoded_payload["supernevaBaseUrl"],
-            "public": decoded_payload["supernevaPublic"]
-            
+            "public": decoded_payload["supernevaPublic"],
         }
         context = SuperNeva(config=body["_env"])
 
