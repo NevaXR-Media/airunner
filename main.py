@@ -37,16 +37,7 @@ def TestRunner():
             "batch_size": 1,
             "polling_wait_time_ms": 5000,
         },
-        "superneva": {
-            "public": "?",
-            "base_url": "http://localhost:3000/api/v1",
-            "sqs_config": {
-                "url": "",
-                "key": "",
-                "secret": "",
-                "region": "",
-            },
-        },
+        
     }
 
     # Setup pipes
