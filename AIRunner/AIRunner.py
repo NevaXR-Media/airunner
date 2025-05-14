@@ -99,14 +99,25 @@ class AIRunner(Generic[TStore]):
 
         prompt = payload.get("prompt")
         content = payload.get("content")
+        collection = payload.get("collection")
+        meta = payload.get("meta")
+        media = payload.get("media")
+
+        related: Dict[str, str] = {}
+        if content:
+            related["contentId"] = str(content.get("_id") or "?")
+        if collection:
+            related["collectionId"] = str(collection.get("_id") or "?")
+        if meta:
+            related["metaId"] = str(meta.get("_id") or "?")
+        if media:
+            related["mediaId"] = str(media.get("_id") or "?")
 
         if not prompt:
             self.logger.error("Invalid prompt.")
             return
 
-        if not content:
-            self.logger.error("Invalid content.")
-            return
+        
 
         if context.isSuperNevaReady:
             if prompt and content:
@@ -116,9 +127,7 @@ class AIRunner(Generic[TStore]):
                     type=LogType.EVENT,
                     payload=LogPayloadInput(
                         _id=str(prompt.get("_id") or "?"),
-                        related={
-                            "contentId": str(content.get("_id") or "?"),
-                        },
+                        related=related,
                         key="taskMessage",
                         value={
                             "result": result,
@@ -149,8 +158,19 @@ class AIRunner(Generic[TStore]):
         if context.isSuperNevaReady:
             prompt = payload.get("prompt")
             content = payload.get("content")
+            collection = payload.get("collection")
+            meta = payload.get("meta")
+            media = payload.get("media")
             account_id = payload.get("accountId")
-
+            related: Dict[str, str] = {}
+            if content:
+                related["contentId"] = str(content.get("_id") or "?")
+            if collection:
+                related["collectionId"] = str(collection.get("_id") or "?")
+            if meta:
+                related["metaId"] = str(meta.get("_id") or "?")
+            if media:
+                related["mediaId"] = str(media.get("_id") or "?")
             if prompt and content:
                 log_data = LogInput(
                     description=message,
@@ -158,9 +178,7 @@ class AIRunner(Generic[TStore]):
                     type=LogType.ERROR,
                     payload=LogPayloadInput(
                         _id=str(prompt.get("_id") or "?"),
-                        related={
-                            "contentId": str(content.get("_id") or "?"),
-                        },
+                        related=related,
                         key="taskMessage",
                         value={
                             "result": result,
