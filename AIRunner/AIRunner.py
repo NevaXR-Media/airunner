@@ -330,15 +330,15 @@ class AIRunner(Generic[TStore]):
         )
 
         sqs_config: SNSQSConfig = {
-            "url": decoded_payload["responseSqsQueueUrl"],
-            "key": decoded_payload["responseSqsKey"],
-            "secret": decoded_payload["responseSqsSecret"],
-            "region": decoded_payload["responseSqsRegion"],
+            "url": decoded_payload["sqsQueueUrl"],
+            "key": decoded_payload["sqsKey"],
+            "secret": decoded_payload["sqsSecret"],
+            "region": decoded_payload["sqsRegion"],
         }
         body["_env"] = {
             "sqs_config": sqs_config,
-            "base_url": decoded_payload["supernevaBaseUrl"],
-            "public": decoded_payload["supernevaPublic"],
+            "base_url": decoded_payload["apiUrl"],
+            "public": decoded_payload["public"],
         }
         context = SuperNeva(config=body["_env"])
 
