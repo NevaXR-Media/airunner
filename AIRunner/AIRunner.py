@@ -317,10 +317,7 @@ class AIRunner(Generic[TStore]):
             self.logger.error("Invalid message body.")
             return
         params = body.get("params")
-        if not params:
-            self.logger.error("Invalid message params.")
-            return
-        if not params.get("prompt"):
+        if not body.get("prompt"):
             self.logger.error("Invalid message prompt.")
             return
 
