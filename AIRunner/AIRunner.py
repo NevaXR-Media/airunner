@@ -316,14 +316,17 @@ class AIRunner(Generic[TStore]):
         if not body:
             self.logger.error("Invalid message body.")
             return
-
-        if not body.get("prompt"):
+        params = body.get("params")
+        if not params:
+            self.logger.error("Invalid message params.")
+            return
+        if not params.get("prompt"):
             self.logger.error("Invalid message prompt.")
             return
 
         sqs_message_secret = os.getenv("SQS_MESSAGE_SECRET", "")  # RESPONSE QUEUE TOKEN
 
-        response_queue_token = body.get("responseQueueToken")
+        response_queue_token = params.get("responseQueueToken")
 
         decoded_payload = jwt.decode(
             response_queue_token, sqs_message_secret, algorithms=["HS256"]
