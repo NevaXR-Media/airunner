@@ -1,4 +1,6 @@
 from typing import Dict
+
+from SuperNeva.SuperNeva import SuperNeva
 from AIRunner.AIRunnerPipeline import AIRunnerPipeline
 from AIRunner.AIRunner import AIRunner
 
@@ -16,7 +18,10 @@ class TestPipeline(AIRunnerPipeline[MyStore]):
         super().__init__(name)
 
     def run(
-        self, payload: PromptMessage, previousResults: Dict[str, AIRunnerPipelineResult]
+        self,
+        context: SuperNeva,
+        payload: PromptMessage,
+        previousResults: Dict[str, AIRunnerPipelineResult],
     ) -> AIRunnerPipelineResult:
         self.logger.info("Pipeline started.")
         return {"body": {"message": "Pipeline finished."}, "type": "success"}
@@ -36,16 +41,6 @@ def TestRunner():
             "region": "",
             "batch_size": 1,
             "polling_wait_time_ms": 5000,
-        },
-        "superneva": {
-            "public": "?",
-            "base_url": "http://localhost:3000/api/v1",
-            "sqs_config": {
-                "url": "",
-                "key": "",
-                "secret": "",
-                "region": "",
-            },
         },
     }
 

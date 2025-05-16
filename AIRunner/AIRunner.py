@@ -1,3 +1,4 @@
+import os
 import json
 import timeit
 from typing import Any, Callable, Dict, Generic, List, TypeVar, Optional
@@ -11,6 +12,8 @@ from SuperNeva.SuperNeva import SuperNeva
 from SuperNeva.SNRequest import Auth
 from SuperNeva.Types import LogInput, LogPayloadInput, LogTopic, LogType
 from AIRunner.Types import PromptMessage
+from SuperNeva.SNSQS import SNSQSConfig
+import jwt
 
 
 TStore = TypeVar("TStore")
@@ -20,7 +23,7 @@ class AIRunner(Generic[TStore]):
     pipes: List[Any]
 
     config: "AIRunnerConfig"
-    context: SuperNeva
+    # context: SuperNeva
 
     def __init__(
         self,
@@ -42,7 +45,7 @@ class AIRunner(Generic[TStore]):
         self.store = AIRunnerGenericStore[TStore]()
         self.pipes = pipes or []
         self.logger = logger or AIRunnerLogger(name="AIRunner", colorize=False)
-        self.context = SuperNeva(config=config["superneva"])
+        # context = SuperNeva(config=config["superneva"])
         self.sqs = boto3.client(  # type: ignore
             "sqs",
             region_name=config["sqs_config"]["region"],
@@ -55,40 +58,69 @@ class AIRunner(Generic[TStore]):
         self.onSuccessHandler = onSuccessHandler
         self.onLogHandler = onLogHandler
 
-    def onSuccess(self, message: PromptMessage, body: PromptMessage) -> None:
+    def onSuccess(
+        self, context: SuperNeva, message: PromptMessage, body: PromptMessage
+    ) -> None:
         self.logger.info("Run successfully finished.")
         prompt = message.get("prompt")
         content = message.get("content")
-        if self.context.isResponseQueueReady:
-            if prompt and content:
+        collection = message.get("collection")
+        meta = message.get("meta")
+        media = message.get("media")
+
+        deduplicationId = "default"
+        if content:
+            deduplicationId = content.get("_id")
+        if collection:
+            deduplicationId = collection.get("_id")
+        if meta:
+            deduplicationId = meta.get("_id")
+        if media:
+            deduplicationId = media.get("_id")
+
+        if context.isResponseQueueReady:
+            if prompt:
                 prompt_id = prompt.get("_id", "default")
-                content_id = content.get("_id", "default")
-                self.context.queue.push(  # type: ignore
+                context.queue.push(  # type: ignore
                     body=json.dumps(body),
                     groupId=str(prompt_id),
-                    deduplicationId=str(content_id),
+                    deduplicationId=str(deduplicationId),
                 )
 
         if self.onSuccessHandler:
             self.onSuccessHandler(message, body)
 
     def onLog(
-        self, message: str, duration: float, payload: PromptMessage, result: Any
+        self,
+        context: SuperNeva,
+        message: str,
+        duration: float,
+        payload: PromptMessage,
+        result: Any,
     ) -> None:
         self.logger.info("New Log: " + message)
 
         prompt = payload.get("prompt")
         content = payload.get("content")
+        collection = payload.get("collection")
+        meta = payload.get("meta")
+        media = payload.get("media")
+
+        related: Dict[str, str] = {}
+        if content:
+            related["contentId"] = str(content.get("_id") or "?")
+        if collection:
+            related["collectionId"] = str(collection.get("_id") or "?")
+        if meta:
+            related["metaId"] = str(meta.get("_id") or "?")
+        if media:
+            related["mediaId"] = str(media.get("_id") or "?")
 
         if not prompt:
             self.logger.error("Invalid prompt.")
             return
 
-        if not content:
-            self.logger.error("Invalid content.")
-            return
-
-        if self.context.isSuperNevaReady:
+        if context.isSuperNevaReady:
             if prompt and content:
                 log_data: LogInput = LogInput(
                     description=message,
@@ -96,9 +128,7 @@ class AIRunner(Generic[TStore]):
                     type=LogType.EVENT,
                     payload=LogPayloadInput(
                         _id=str(prompt.get("_id") or "?"),
-                        related={
-                            "contentId": str(content.get("_id") or "?"),
-                        },
+                        related=related,
                         key="taskMessage",
                         value={
                             "result": result,
@@ -109,7 +139,7 @@ class AIRunner(Generic[TStore]):
                         duration=duration,
                     ),
                 )
-                self.context.logs.create(data=[log_data])
+                context.logs.create(data=[log_data])
             else:
                 self.logger.error("Invalid message.")
 
@@ -117,15 +147,31 @@ class AIRunner(Generic[TStore]):
             self.onLogHandler(message, duration, payload, result)
 
     def onError(
-        self, message: str, duration: float, payload: PromptMessage, result: Any
+        self,
+        context: SuperNeva,
+        message: str,
+        duration: float,
+        payload: PromptMessage,
+        result: Any,
     ) -> None:
         self.logger.info("New Error: " + message)
 
-        if self.context.isSuperNevaReady:
+        if context.isSuperNevaReady:
             prompt = payload.get("prompt")
             content = payload.get("content")
+            collection = payload.get("collection")
+            meta = payload.get("meta")
+            media = payload.get("media")
             account_id = payload.get("accountId")
-
+            related: Dict[str, str] = {}
+            if content:
+                related["contentId"] = str(content.get("_id") or "?")
+            if collection:
+                related["collectionId"] = str(collection.get("_id") or "?")
+            if meta:
+                related["metaId"] = str(meta.get("_id") or "?")
+            if media:
+                related["mediaId"] = str(media.get("_id") or "?")
             if prompt and content:
                 log_data = LogInput(
                     description=message,
@@ -133,9 +179,7 @@ class AIRunner(Generic[TStore]):
                     type=LogType.ERROR,
                     payload=LogPayloadInput(
                         _id=str(prompt.get("_id") or "?"),
-                        related={
-                            "contentId": str(content.get("_id") or "?"),
-                        },
+                        related=related,
                         key="taskMessage",
                         value={
                             "result": result,
@@ -147,24 +191,45 @@ class AIRunner(Generic[TStore]):
                     ),
                 )
 
-                self.context.logs.create(
-                    data=[log_data], _auth=Auth(account_id=account_id)
-                )
+                context.logs.create(data=[log_data], _auth=Auth(account_id=account_id))
             else:
                 self.logger.error("Invalid message.")
 
         if self.onErrorHandler:
             self.onErrorHandler(message, duration, payload, result)
 
-    def generate(self, payload: PromptMessage) -> Any:
+    def generate(self, payload: PromptMessage, context: SuperNeva) -> Any:
 
         content = payload.get("content")
+        collection = payload.get("collection")
+        meta = payload.get("meta")
+        media = payload.get("media")
 
-        if not content:
-            self.logger.error("Invalid content.")
-            return
+        if content:
+            self.onLog(
+                context,
+                "Generating prompt: " + str(content.get("_id")),
+                0,
+                payload,
+                None,
+            )
+        if collection:
+            self.onLog(
+                context,
+                "Generating collection: " + str(collection.get("_id")),
+                0,
+                payload,
+                None,
+            )
+        if meta:
+            self.onLog(
+                context, "Generating meta: " + str(meta.get("_id")), 0, payload, None
+            )
+        if media:
+            self.onLog(
+                context, "Generating media: " + str(media.get("_id")), 0, payload, None
+            )
 
-        self.onLog("Generating prompt: " + str(content.get("_id")), 0, payload, None)
         start_time = timeit.default_timer()
         if not self.pipes:
             self.logger.error("No pipes found.")
@@ -178,13 +243,17 @@ class AIRunner(Generic[TStore]):
                 pipe = self.pipes[pipe_index]
                 is_last_pipe = pipe_index == len(self.pipes) - 1
 
-                result = pipe.run(payload, results)
+                result = pipe.run(context, payload, results)
 
                 print(result)
                 if result.get("type") == "error":
                     duration = timeit.default_timer() - start_time
                     self.onError(
-                        "Error in pipe: " + pipe.name, duration, payload, result
+                        context,
+                        "Error in pipe: " + pipe.name,
+                        duration,
+                        payload,
+                        result,
                     )
                     return
                 else:
@@ -200,6 +269,7 @@ class AIRunner(Generic[TStore]):
                             + " seconds."
                         )
                         self.onLog(
+                            context,
                             "Pipe "
                             + pipe.name
                             + " completed in "
@@ -210,10 +280,11 @@ class AIRunner(Generic[TStore]):
                             result,
                         )
 
-                        self.onSuccess(message=payload, body=body)
+                        self.onSuccess(context, message=payload, body=body)
                     else:
                         duration = timeit.default_timer() - start_time
                         self.onLog(
+                            context,
                             "Pipe " + pipe.name + " completed.",
                             duration,
                             payload,
@@ -226,6 +297,7 @@ class AIRunner(Generic[TStore]):
             duration = timeit.default_timer() - start_time
             self.logger.error("Exception in pipe: " + self.pipes[pipe_index].name, e)
             self.onError(
+                context,
                 "Exception in pipe: " + self.pipes[pipe_index].name,
                 duration,
                 payload,
@@ -245,16 +317,33 @@ class AIRunner(Generic[TStore]):
             self.logger.error("Invalid message body.")
             return
 
-        if not body.get("content"):
-            self.logger.error("Invalid message content.")
-            return
-
         if not body.get("prompt"):
             self.logger.error("Invalid message prompt.")
             return
 
+        sqs_message_secret = os.getenv("SQS_MESSAGE_SECRET", "")  # RESPONSE QUEUE TOKEN
+
+        response_queue_token = body.get("responseQueueToken")
+
+        decoded_payload = jwt.decode(
+            response_queue_token, sqs_message_secret, algorithms=["HS256"]
+        )
+
+        sqs_config: SNSQSConfig = {
+            "url": decoded_payload["sqsQueueUrl"],
+            "key": decoded_payload["sqsKey"],
+            "secret": decoded_payload["sqsSecret"],
+            "region": decoded_payload["sqsRegion"],
+        }
+        body["_env"] = {
+            "sqs_config": sqs_config,
+            "base_url": decoded_payload["apiUrl"],
+            "public": decoded_payload["public"],
+        }
+        context = SuperNeva(config=body["_env"])
+
         # payload: Any = makeClass(body)
-        self.generate(payload=body)
+        self.generate(payload=body, context=context)
 
     def start_consumer(self) -> None:
         self.logger.info("Starting consumer.")
