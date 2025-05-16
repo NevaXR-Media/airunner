@@ -1,6 +1,8 @@
 # Type definitions
 from typing import Dict, Generic, TypeVar
 
+from SuperNeva.SuperNeva import SuperNeva
+
 from AIRunner.AIRunner import AIRunner
 from AIRunner.Types import PromptMessage
 from AIRunner.Types import AIRunnerPipelineResult
@@ -19,7 +21,6 @@ class AIRunnerPipeline(Generic[TStore]):
         self.logger.debug("Runner setup started.")
 
         self.store = runner.store
-        self.context = runner.context
 
     def load(self) -> None:
         self.logger.debug("Loading pipeline.")
@@ -28,7 +29,10 @@ class AIRunnerPipeline(Generic[TStore]):
         self.logger.debug("Downloading pipeline.")
 
     def run(
-        self, payload: PromptMessage, previousResults: Dict[str, AIRunnerPipelineResult]
+        self,
+        context: SuperNeva,
+        payload: PromptMessage,
+        previousResults: Dict[str, AIRunnerPipelineResult],
     ) -> AIRunnerPipelineResult:
         self.logger.info("Pipeline started.")
         return {"body": {"message": "Pipeline finished."}, "type": "success"}
