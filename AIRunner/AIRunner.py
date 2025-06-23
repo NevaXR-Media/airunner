@@ -13,7 +13,12 @@ from SuperNeva.SNRequest import Auth
 from SuperNeva.Types import LogInput, LogPayloadInput, LogTopic, LogType
 from AIRunner.Types import PromptMessage
 from SuperNeva.SNSQS import SNSQSConfig
-import jwt
+
+# import jwt
+from Crypto.Cipher import AES
+from Crypto.Hash import SHA256
+import base64
+import json
 
 
 TStore = TypeVar("TStore")
@@ -316,18 +321,47 @@ class AIRunner(Generic[TStore]):
         if not body:
             self.logger.error("Invalid message body.")
             return
-        params = body.get("params")
+
         if not body.get("prompt"):
             self.logger.error("Invalid message prompt.")
             return
 
+        signature = body.get("signature")
+        if not signature:
+            self.logger.error("Invalid message signature.")
+            return
+
         sqs_message_secret = os.getenv("SQS_MESSAGE_SECRET", "")  # RESPONSE QUEUE TOKEN
 
-        response_queue_token = params.get("responseQueueToken")
+        secret = sqs_message_secret.encode()
+        message_encrypted = body.get("signature")
 
-        decoded_payload = jwt.decode(
-            response_queue_token, sqs_message_secret, algorithms=["HS256"]
-        )
+        # AES expects a 32-byte key (for AES-256)
+        key = SHA256.new(secret).digest()
+
+        # Decode ciphertext from Base64
+        raw = base64.b64decode(message_encrypted)
+
+        # Split IV and actual ciphertext
+        iv = raw[:16]
+        ciphertext = raw[16:]
+
+        # Decrypt
+        cipher = AES.new(key, AES.MODE_CBC, iv)
+        decrypted = cipher.decrypt(ciphertext)
+
+        # Remove padding (PKCS7)
+        pad_len = decrypted[-1]
+        plaintext = decrypted[:-pad_len].decode()
+
+        # parse plaintext as json
+        decoded_payload = json.loads(plaintext)
+
+        # response_queue_token = params.get("responseQueueToken")
+
+        # decoded_payload = jwt.decode(
+        #     response_queue_token, sqs_message_secret, algorithms=["HS256"]
+        # )
 
         sqs_config: SNSQSConfig = {
             "url": decoded_payload["sqsQueueUrl"],
