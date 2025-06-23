@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="AIRunner",
-    version="0.2.5",
+    version="0.2.6",
     packages=find_packages(),
     install_requires=["boto3", "aws-sqs-consumer", "typing", "requests"],
     python_requires=">=3.11",

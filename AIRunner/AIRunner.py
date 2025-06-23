@@ -121,7 +121,7 @@ class AIRunner(Generic[TStore]):
             return
 
         if context.isSuperNevaReady:
-            if prompt and content:
+            if prompt:
                 log_data: LogInput = LogInput(
                     description=message,
                     topic=LogTopic.PROMPT,
@@ -172,7 +172,7 @@ class AIRunner(Generic[TStore]):
                 related["metaId"] = str(meta.get("_id") or "?")
             if media:
                 related["mediaId"] = str(media.get("_id") or "?")
-            if prompt and content:
+            if prompt:
                 log_data = LogInput(
                     description=message,
                     topic=LogTopic.PROMPT,
