@@ -14,11 +14,9 @@ from SuperNeva.Types import LogInput, LogPayloadInput, LogTopic, LogType
 from AIRunner.Types import PromptMessage
 from SuperNeva.SNSQS import SNSQSConfig
 
-# import jwt
+from base64 import b64decode
+from hashlib import md5
 from Crypto.Cipher import AES
-from Crypto.Hash import SHA256
-import base64
-import json
 
 
 TStore = TypeVar("TStore")
@@ -313,6 +311,14 @@ class AIRunner(Generic[TStore]):
         final_result = results[self.pipes[-1].name]
         return final_result
 
+    def evp_bytes_to_key(password: bytes, salt: bytes, key_len: int, iv_len: int):
+        d = b""
+        last = b""
+        while len(d) < (key_len + iv_len):
+            last = md5(last + password + salt).digest()
+            d += last
+        return d[:key_len], d[key_len : key_len + iv_len]
+
     def handle_message(self, message: Message) -> None:
         # self.logger.info("Received message: " + message.Body)
 
@@ -334,28 +340,28 @@ class AIRunner(Generic[TStore]):
         sqs_message_secret = os.getenv("SQS_MESSAGE_SECRET", "")  # RESPONSE QUEUE TOKEN
 
         secret = sqs_message_secret.encode()
-        message_encrypted = body.get("signature")
+        signature = body.get("signature")
 
-        # AES expects a 32-byte key (for AES-256)
-        key = SHA256.new(secret).digest()
+        encrypted = b64decode(signature)
 
-        # Decode ciphertext from Base64
-        raw = base64.b64decode(message_encrypted)
+        if encrypted[:8] != b"Salted__":
+            raise ValueError("Salted__ header missing!")
 
-        # Split IV and actual ciphertext
-        iv = raw[:16]
-        ciphertext = raw[16:]
+        salt = encrypted[8:16]
+        ciphertext = encrypted[16:]
 
-        # Decrypt
+        key, iv = evp_bytes_to_key(secret.encode(), salt, 32, 16)
+
+        # AES çözme
         cipher = AES.new(key, AES.MODE_CBC, iv)
         decrypted = cipher.decrypt(ciphertext)
 
-        # Remove padding (PKCS7)
+        # PKCS7 padding kaldır
         pad_len = decrypted[-1]
-        plaintext = decrypted[:-pad_len].decode()
+        plaintext = decrypted[:-pad_len]
 
-        # parse plaintext as json
-        decoded_payload = json.loads(plaintext)
+        # JSON stringini çöz
+        decoded_payload = json.loads(plaintext.decode("utf-8"))
 
         # response_queue_token = params.get("responseQueueToken")
 
