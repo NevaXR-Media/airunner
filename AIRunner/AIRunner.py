@@ -350,7 +350,7 @@ class AIRunner(Generic[TStore]):
         salt = encrypted[8:16]
         ciphertext = encrypted[16:]
 
-        key, iv = self.evp_bytes_to_key(secret.encode(), salt, 32, 16)
+        key, iv = self.evp_bytes_to_key(secret, salt, 32, 16)
 
         # AES çözme
         cipher = AES.new(key, AES.MODE_CBC, iv)
