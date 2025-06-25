@@ -311,7 +311,7 @@ class AIRunner(Generic[TStore]):
         final_result = results[self.pipes[-1].name]
         return final_result
 
-    def evp_bytes_to_key(password: bytes, salt: bytes, key_len: int, iv_len: int):
+    def evp_bytes_to_key(self, password: bytes, salt: bytes, key_len: int, iv_len: int):
         d = b""
         last = b""
         while len(d) < (key_len + iv_len):
