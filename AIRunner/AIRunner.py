@@ -336,8 +336,10 @@ class AIRunner(Generic[TStore]):
         if not signature:
             self.logger.error("Invalid message signature.")
             return
-
-        sqs_message_secret = os.getenv("SQS_MESSAGE_SECRET", "")  # RESPONSE QUEUE TOKEN
+        print(os.environ.get("SQS_MESSAGE_SECRET", ""))
+        sqs_message_secret = os.environ.get(
+            "SQS_MESSAGE_SECRET", ""
+        )  # RESPONSE QUEUE TOKEN
 
         secret = sqs_message_secret.encode()
         signature = body.get("signature")
