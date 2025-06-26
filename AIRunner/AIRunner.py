@@ -380,8 +380,8 @@ class AIRunner(Generic[TStore]):
         body["_env"] = {
             "sqs_config": sqs_config,
             "base_url": decoded_payload["apiUrl"],
-            "public": decoded_payload["public"],
-            "secret": decoded_payload["secret"],
+            "public": decoded_payload.get("public", ""),
+            "secret": decoded_payload.get("secret", ""),
         }
         context = SuperNeva(config=body["_env"])
 
