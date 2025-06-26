@@ -364,7 +364,7 @@ class AIRunner(Generic[TStore]):
 
         # JSON stringini çöz
         decoded_payload = json.loads(plaintext.decode("utf-8"))
-
+        print(decoded_payload)
         # response_queue_token = params.get("responseQueueToken")
 
         # decoded_payload = jwt.decode(
